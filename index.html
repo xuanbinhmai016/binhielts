@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>binhielts - Luyện thi IELTS Thông minh & Cá nhân hóa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Merriweather (cho bài đọc học thuật) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .academic-text { font-family: 'Merriweather', serif; line-height: 1.85; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-100 selection:text-indigo-900">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo } = React;
+
+        // =========================================================================
+        // 1. KHO DỮ LIỆU ĐỀ THI CAMBRIDGE & ACTUAL TESTS (READING & LISTENING)
+        // =========================================================================
+        const EXAM_DATABASE = [
+            {
+                id: 'cam19-t1-r1',
+                source: 'Cambridge IELTS 19',
+                testName: 'Test 1 - Reading Passage 1',
+                skill: 'Reading',
+                part: 'Passage 1',
+                durationMinutes: 20,
+                level: 'Band 5.5 - 7.0',
+                title: 'How tennis rackets have changed',
+                subtitle: 'The evolution of tennis equipment from wooden frames to modern composite materials.',
+                passage: [
+                    "In 2016, the British former professional tennis player Greg Rusedski grew increasingly concerned about the direction his sport was taking. He felt that modern tennis had become a game dominated by sheer power, largely due to the technological advancements in racket design. Rusedski argued that the huge sweet spots and lightweight frames of contemporary rackets allowed players to hit the ball with unprecedented velocity, reducing the strategic rallies that once defined the sport.",
+                    "For over a century, from the birth of lawn tennis in the 1870s until the late 1960s, rackets were crafted exclusively from wood, most commonly ash or beech. These wooden rackets had small heads, typically around 65 square inches, and weighed between 370 and 400 grams. Because the sweet spot—the area on the strings that provides the cleanest and most powerful rebound—was tiny, players needed exceptional hand-eye coordination and precise footwork to strike the ball cleanly.",
+                    "The first major revolution occurred in 1967 when the American company Wilson introduced the T2000, a steel-framed racket popularized by Jimmy Connors. Although lighter and more durable than wood, steel rackets lacked flexibility, transmitting harsh vibrations to the player's arm. Soon after, aluminum models emerged, offering a slightly softer feel while maintaining an enlarged head size.",
+                    "However, the true game-changer arrived in the mid-1970s with the introduction of graphite (carbon fiber) composites, combined with Howard Head's invention of the oversized racket head (up to 110 square inches). Graphite provided an unmatched stiffness-to-weight ratio. Manufacturers could now build rackets weighing under 300 grams that generated far more power and stability than heavy wooden frames. Furthermore, the introduction of polyester strings in the late 1990s allowed players to generate extreme topspin, enabling them to swing as hard as possible while keeping the ball inside the court boundaries."
+                ],
+                questions: [
+                    {
+                        id: 'q1',
+                        type: 'TFNG',
+                        text: 'Greg Rusedski believed that modern rackets made tennis matches more tactical than in the past.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'FALSE',
+                        explanation: 'Đoạn 1 nêu rõ Rusedski cho rằng vợt hiện đại khiến bóng đi với tốc độ chưa từng có, "reducing the strategic rallies that once defined the sport" (làm giảm các pha bóng mang tính chiến thuật), trái ngược với nhận định của câu hỏi.'
+                    },
+                    {
+                        id: 'q2',
+                        type: 'TFNG',
+                        text: 'Wooden tennis rackets were generally heavier than modern composite rackets.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'TRUE',
+                        explanation: 'Đoạn 2 chỉ ra vợt gỗ nặng từ 370 đến 400 grams, trong khi đoạn 4 cho biết vợt graphite hiện đại nặng dưới 300 grams ("weighing under 300 grams").'
+                    },
+                    {
+                        id: 'q3',
+                        type: 'TFNG',
+                        text: 'Jimmy Connors helped design the Wilson T2000 steel racket.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'NOT GIVEN',
+                        explanation: 'Đoạn 3 chỉ đề cập vợt T2000 được công ty Wilson giới thiệu và "popularized by Jimmy Connors" (được Jimmy Connors làm cho phổ biến), không có thông tin nào nói ông tham gia thiết kế nó.'
+                    },
+                    {
+                        id: 'q4',
+                        type: 'MCQ',
+                        text: 'What was a major disadvantage of the early steel-framed rackets?',
+                        options: [
+                            'A. They were much heavier than wooden rackets.',
+                            'B. They caused uncomfortable vibrations in the arm.',
+                            'C. Their heads were too small for beginners.',
+                            'D. They broke easily during professional matches.'
+                        ],
+                        answer: 'B. They caused uncomfortable vibrations in the arm.',
+                        explanation: 'Đoạn 3 viết: "steel rackets lacked flexibility, transmitting harsh vibrations to the player\'s arm" (thiếu độ linh hoạt, truyền các rung động mạnh tới cánh tay người chơi).'
+                    },
+                    {
+                        id: 'q5',
+                        type: 'FILL',
+                        text: 'Complete the sentence with ONE WORD from the passage: Polyester strings enabled players to produce heavy __________, helping keep high-speed shots inside the lines.',
+                        answer: 'topspin',
+                        explanation: 'Câu cuối đoạn 4: "...the introduction of polyester strings in the late 1990s allowed players to generate extreme topspin, enabling them to swing as hard as possible while keeping the ball inside the court boundaries."'
+                    }
+                ]
+            },
+            {
+                id: 'cam19-t2-r2',
+                source: 'Cambridge IELTS 19',
+                testName: 'Test 2 - Reading Passage 2',
+                skill: 'Reading',
+                part: 'Passage 2',
+                durationMinutes: 20,
+                level: 'Band 6.5 - 8.0',
+                title: 'The persistence and peril of misinformation',
+                subtitle: 'Why false information spreads rapidly online and how cognitive biases prevent us from correcting it.',
+                passage: [
+                    "Misinformation—both deliberately fabricated disinformation and unintentionally inaccurate claims—has become one of the defining challenges of the digital age. While falsehoods have existed throughout human history, social media algorithms have amplified their reach and velocity. Studies analyzing millions of posts have consistently shown that false news stories are significantly more likely to be shared than verified facts, largely because falsehoods tend to evoke strong emotional reactions such as outrage, fear, or surprise.",
+                    "A particularly troubling psychological phenomenon associated with misinformation is the 'continued influence effect.' Even when individuals are presented with clear, credible retractions proving that an initial piece of information was false, they frequently continue to rely on that misinformation when making judgments or drawing inferences. Cognitive scientists explain that once a piece of information is integrated into a person's mental model of an event, removing it leaves a causal gap. Unless an alternative, plausible explanation is provided to fill that gap, the brain prefers to retain the flawed narrative.",
+                    "Furthermore, confirmation bias plays a pivotal role in how we process corrections. People naturally seek out and accept evidence that aligns with their preexisting beliefs while scrutinizing or dismissing facts that challenge their worldview. In some cases, aggressive fact-checking can even trigger a 'backfire effect,' causing individuals to entrench themselves more deeply in their original misconceptions to protect their social identity.",
+                    "To combat this, researchers advocate for 'prebunking'—a strategy inspired by medical inoculation. By exposing people to weakened doses of common manipulation techniques, such as emotional language or false dichotomies, before they encounter actual misinformation, individuals develop cognitive antibodies that help them spot deceptive content independently."
+                ],
+                questions: [
+                    {
+                        id: 'q1',
+                        type: 'MCQ',
+                        text: 'According to the first paragraph, why does false news spread faster than true information on social media?',
+                        options: [
+                            'A. Social media companies manually promote false stories.',
+                            'B. Falsehoods trigger intense emotional responses in readers.',
+                            'C. True news is usually behind expensive paywalls.',
+                            'D. Verified facts are often too complex for average users.'
+                        ],
+                        answer: 'B. Falsehoods trigger intense emotional responses in readers.',
+                        explanation: 'Đoạn 1 nêu rõ: "...false news stories are significantly more likely to be shared than verified facts, largely because falsehoods tend to evoke strong emotional reactions such as outrage, fear, or surprise."'
+                    },
+                    {
+                        id: 'q2',
+                        type: 'TFNG',
+                        text: 'People immediately stop believing a false claim once they see an official correction.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'FALSE',
+                        explanation: 'Đoạn 2 giải thích về "continued influence effect": ngay cả khi có đính chính rõ ràng, mọi người vẫn tiếp tục dựa vào thông tin sai lệch đó ("frequently continue to rely on that misinformation").'
+                    },
+                    {
+                        id: 'q3',
+                        type: 'FILL',
+                        text: 'Complete the summary with ONE WORD from Paragraph 2: Removing false information from memory creates a causal __________, which the brain dislikes unless a logical alternative is offered.',
+                        answer: 'gap',
+                        explanation: 'Đoạn 2: "...removing it leaves a causal gap. Unless an alternative, plausible explanation is provided to fill that gap, the brain prefers to retain the flawed narrative."'
+                    },
+                    {
+                        id: 'q4',
+                        type: 'TFNG',
+                        text: 'Prebunking works by teaching users to recognize typical methods used to manipulate audiences.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'TRUE',
+                        explanation: 'Đoạn 4 mô tả prebunking là việc cho mọi người tiếp xúc với các kỹ thuật thao túng phổ biến ("common manipulation techniques") ở mức độ nhẹ để hình thành kháng thể nhận thức.'
+                    }
+                ]
+            },
+            {
+                id: 'cam18-t1-r3',
+                source: 'Cambridge IELTS 18',
+                testName: 'Test 1 - Reading Passage 3',
+                skill: 'Reading',
+                part: 'Passage 3',
+                durationMinutes: 20,
+                level: 'Band 7.0 - 8.5',
+                title: 'Conquering Earth’s space junk problem',
+                subtitle: 'Satellites, rocket shards and collision debris are creating major traffic risks in orbit.',
+                passage: [
+                    "Since the launch of Sputnik 1 in 1957, humanity has sent thousands of rockets and satellites into Earth's orbit. While these technologies underpin modern GPS navigation, weather forecasting, and global telecommunications, they have left behind a hazardous legacy: space debris. Currently, space agencies track over 30,000 pieces of debris larger than 10 centimeters, alongside millions of smaller fragments hurtling around the planet at speeds exceeding 28,000 kilometers per hour. At such velocities, even a fleck of paint can puncture a spacecraft's hull or shatter a solar panel.",
+                    "The greatest fear among astrophysicists is a theoretical scenario known as the Kessler Syndrome, proposed by NASA scientist Donald Kessler in 1978. In this cascade effect, a single collision between two large objects in low Earth orbit generates thousands of new fragments, which in turn collide with other satellites, exponentially increasing debris density until certain orbital altitudes become completely unusable for generations.",
+                    "Addressing this crisis requires both strict international regulation and innovative active debris removal (ADR) technologies. Several space agencies and private startups are testing futuristic cleanup methods, including giant orbital nets, robotic arms, harpoons, and magnetic tethers designed to capture defunct satellites and drag them down into Earth's atmosphere, where they harmlessly burn up upon reentry. However, legal complexities remain a major hurdle, as international space law prohibits any nation from touching another country's space hardware without explicit permission."
+                ],
+                questions: [
+                    {
+                        id: 'q1',
+                        type: 'TFNG',
+                        text: 'A tiny piece of paint traveling in orbit is harmless to modern satellites.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'FALSE',
+                        explanation: 'Cuối đoạn 1 nêu: "At such velocities, even a fleck of paint can puncture a spacecraft\'s hull or shatter a solar panel" (có thể làm thủng vỏ tàu vũ trụ hoặc vỡ pin mặt trời).'
+                    },
+                    {
+                        id: 'q2',
+                        type: 'MCQ',
+                        text: 'What does the "Kessler Syndrome" describe?',
+                        options: [
+                            'A. A method for burning up old satellites in the atmosphere.',
+                            'B. A chain reaction of collisions creating uncontrollable space debris.',
+                            'C. An international treaty banning rocket launches.',
+                            'D. A navigation error caused by solar storms.'
+                        ],
+                        answer: 'B. A chain reaction of collisions creating uncontrollable space debris.',
+                        explanation: 'Đoạn 2 mô tả Kessler Syndrome là một hiệu ứng dây chuyền ("cascade effect"), nơi một vụ va chạm tạo ra hàng nghìn mảnh vỡ mới và tiếp tục va chạm với các vệ tinh khác.'
+                    },
+                    {
+                        id: 'q3',
+                        type: 'FILL',
+                        text: 'Complete with ONE WORD from Paragraph 3: Current international __________ prevents countries from removing space objects belonging to other nations without consent.',
+                        answer: 'law',
+                        explanation: 'Câu cuối đoạn 3: "...as international space law prohibits any nation from touching another country\'s space hardware without explicit permission."'
+                    }
+                ]
+            },
+            {
+                id: 'cam17-t3-r1',
+                source: 'Cambridge IELTS 17',
+                testName: 'Test 3 - Reading Passage 1',
+                skill: 'Reading',
+                part: 'Passage 1',
+                durationMinutes: 20,
+                level: 'Band 5.5 - 7.0',
+                title: 'The thylacine (Tasmanian tiger)',
+                subtitle: 'The rise and extinction of Australia’s largest known carnivorous marsupial.',
+                passage: [
+                    "The extinct thylacine, also known as the Tasmanian tiger because of the distinctive dark stripes radiating from the top of its back, was a carnivorous marsupial native to mainland Australia, Tasmania, and New Guinea. In appearance, it bore a striking resemblance to a medium-to-large-sized dog, except for its stiff tail and abdominal pouch. Like kangaroos, female thylacines carried their underdeveloped newborns inside a backward-opening pouch for up to three months.",
+                    "Fossil evidence indicates that the thylacine disappeared from mainland Australia roughly 2,000 years ago, likely due to competition from the dingo—an invasive wild dog introduced by humans—as well as climate shifts and human hunting. However, because Tasmania separated from the mainland around 14,000 years ago, dingoes never reached the island, allowing the thylacine to survive there until the 20th century.",
+                    "Following European settlement in Tasmania in 1803, sheep farming expanded rapidly. Settlers blamed the thylacine for attacks on livestock, prompting the government to introduce a bounty scheme in 1888 that paid one pound per dead adult animal. Over two thousand bounties were claimed before the scheme ended in 1909. Combined with habitat loss and canine distemper disease, the population collapsed. The last known captive thylacine, named Benjamin, died at Hobart Zoo on September 7, 1936."
+                ],
+                questions: [
+                    {
+                        id: 'q1',
+                        type: 'TFNG',
+                        text: 'Thylacines survived on mainland Australia longer than they did in Tasmania.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'FALSE',
+                        explanation: 'Đoạn 2 cho biết thylacine biến mất khỏi đất liền Úc khoảng 2.000 năm trước, nhưng vẫn tồn tại ở đảo Tasmania cho đến thế kỷ 20.'
+                    },
+                    {
+                        id: 'q2',
+                        type: 'FILL',
+                        text: 'Complete with ONE WORD from Paragraph 1: Female thylacines raised their young inside a __________, similar to kangaroos.',
+                        answer: 'pouch',
+                        explanation: 'Đoạn 1: "Like kangaroos, female thylacines carried their underdeveloped newborns inside a backward-opening pouch for up to three months."'
+                    },
+                    {
+                        id: 'q3',
+                        type: 'MCQ',
+                        text: 'Why did the Tasmanian government introduce a bounty scheme in 1888?',
+                        options: [
+                            'A. To capture thylacines for overseas zoos.',
+                            'B. Because settlers accused thylacines of killing sheep.',
+                            'C. To study a mysterious disease affecting wildlife.',
+                            'D. To protect dingoes from predators.'
+                        ],
+                        answer: 'B. Because settlers accused thylacines of killing sheep.',
+                        explanation: 'Đoạn 3: "Settlers blamed the thylacine for attacks on livestock, prompting the government to introduce a bounty scheme in 1888..."'
+                    }
+                ]
+            },
+            {
+                id: 'actual-2025-r1',
+                source: 'Actual Tests 2024-2026',
+                testName: 'IDP/BC Actual Test - Reading',
+                skill: 'Reading',
+                part: 'Passage 2',
+                durationMinutes: 20,
+                level: 'Band 6.5 - 8.0',
+                title: 'Biophilic Architecture in Urban Planning',
+                subtitle: 'Integrating natural ecosystems into high-density skyscrapers to boost mental health and energy efficiency.',
+                passage: [
+                    "As global urbanization accelerates, more than half of the world's population now resides in cities characterized by concrete jungles, heat island effects, and minimal green space. In response, architects and urban planners are increasingly embracing 'biophilic design'—an innovative approach that weaves living vegetation, natural daylight, and water features directly into the structural fabric of buildings.",
+                    "One prominent example is Milan's Bosco Verticale (Vertical Forest), two residential towers covered in over 900 trees and 20,000 shrubs. Beyond their striking aesthetic appeal, these vertical forests act as natural air filters, absorbing carbon dioxide and fine particulate dust while producing oxygen. During summer months, the dense foliage shades the building facades, reducing indoor temperatures and cutting air-conditioning energy consumption by up to 30 percent.",
+                    "Equally significant are the psychological benefits. Environmental psychologists have documented that office workers and hospital patients with direct views of greenery recover faster from stress, exhibit higher cognitive productivity, and report lower levels of anxiety compared to those surrounded solely by artificial materials."
+                ],
+                questions: [
+                    {
+                        id: 'q1',
+                        type: 'TFNG',
+                        text: 'The Bosco Verticale towers in Milan have helped lower cooling costs during hot weather.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'TRUE',
+                        explanation: 'Đoạn 2 nêu rõ: "During summer months, the dense foliage shades the building facades, reducing indoor temperatures and cutting air-conditioning energy consumption by up to 30 percent."'
+                    },
+                    {
+                        id: 'q2',
+                        type: 'FILL',
+                        text: 'Complete with ONE WORD from Paragraph 3: Exposure to natural greenery helps hospital patients recover more rapidly from __________.',
+                        answer: 'stress',
+                        explanation: 'Đoạn 3: "...office workers and hospital patients with direct views of greenery recover faster from stress..."'
+                    }
+                ]
+            },
+            {
+                id: 'cam19-t1-l1',
+                source: 'Cambridge IELTS 19',
+                testName: 'Test 1 - Listening Section 1',
+                skill: 'Listening',
+                part: 'Section 1',
+                durationMinutes: 10,
+                level: 'Band 5.5 - 7.5',
+                title: 'Hinchingbrooke Country Park - Volunteer Enquiry',
+                subtitle: 'A phone conversation between a park ranger and a prospective volunteer.',
+                audioScript: [
+                    { speaker: 'Ranger (Male)', gender: 'male', text: 'Good morning, Hinchingbrooke Country Park, David speaking. How can I help you?' },
+                    { speaker: 'Sarah (Female)', gender: 'female', text: 'Hello David. My name is Sarah Jenkins. I saw your advert on the community noticeboard about volunteering at the park on weekends.' },
+                    { speaker: 'Ranger (Male)', gender: 'male', text: 'Oh, wonderful! Yes, we are always looking for enthusiastic volunteers. Have you done any conservation work before, Sarah?' },
+                    { speaker: 'Sarah (Female)', gender: 'female', text: 'Not officially, no. I work as a graphic designer during the week, so I really want to spend Saturdays outdoors doing something practical.' },
+                    { speaker: 'Ranger (Male)', gender: 'male', text: 'That makes complete sense. Our Saturday group meets at the main Visitor Centre at 9:30 AM. Right now, our main project is repairing the wooden boardwalks near the wetland area, because they became slippery after the winter floods.' },
+                    { speaker: 'Sarah (Female)', gender: 'female', text: 'That sounds great. Do I need to bring my own tools or protective gloves?' },
+                    { speaker: 'Ranger (Male)', gender: 'male', text: 'We provide all the tools, safety goggles, and heavy-duty gloves. All you need to wear is a pair of sturdy waterproof boots, as the ground gets quite muddy. Also, bring a packed lunch, though we supply free tea and coffee at midday.' }
+                ],
+                questions: [
+                    {
+                        id: 'l1',
+                        type: 'FILL',
+                        text: 'Sarah’s current weekday occupation is a graphic __________.',
+                        answer: 'designer',
+                        explanation: 'Trong hội thoại, Sarah nói: "I work as a graphic designer during the week".'
+                    },
+                    {
+                        id: 'l2',
+                        type: 'MCQ',
+                        text: 'What is the main task for volunteers this Saturday?',
+                        options: [
+                            'A. Planting new trees near the Visitor Centre',
+                            'B. Fixing wooden boardwalks by the wetlands',
+                            'C. Cleaning litter from the main car park'
+                        ],
+                        answer: 'B. Fixing wooden boardwalks by the wetlands',
+                        explanation: 'David nói: "Right now, our main project is repairing the wooden boardwalks near the wetland area".'
+                    },
+                    {
+                        id: 'l3',
+                        type: 'FILL',
+                        text: 'Volunteers are required to bring their own waterproof __________.',
+                        answer: 'boots',
+                        explanation: 'David dặn: "All you need to wear is a pair of sturdy waterproof boots, as the ground gets quite muddy."'
+                    }
+                ]
+            },
+            {
+                id: 'cam18-t2-l3',
+                source: 'Cambridge IELTS 18',
+                testName: 'Test 2 - Listening Section 3',
+                skill: 'Listening',
+                part: 'Section 3',
+                durationMinutes: 12,
+                level: 'Band 6.5 - 8.5',
+                title: 'University Research Project on Urban Beekeeping',
+                subtitle: 'Two biology students discuss their dissertation findings with their tutor.',
+                audioScript: [
+                    { speaker: 'Liam (Male)', gender: 'male', text: 'Hi Chloe, have you finished analyzing the honey samples we collected from the city rooftop hives?' },
+                    { speaker: 'Chloe (Female)', gender: 'female', text: 'Yes, Liam! The results were actually quite surprising. I expected urban honey to contain high levels of heavy metals from traffic pollution, but the concentrations were well below safety limits.' },
+                    { speaker: 'Liam (Male)', gender: 'male', text: 'Really? Why is that? And how did the yield compare to the rural hives in Oxfordshire?' },
+                    { speaker: 'Chloe (Female)', gender: 'female', text: 'Surprisingly, the city bees produced almost 25 percent more honey! Because city parks and balcony gardens have a huge variety of flowering plants blooming at different times, urban bees have a longer foraging season than rural bees surrounded by single-crop farmland.' },
+                    { speaker: 'Liam (Male)', gender: 'male', text: 'That is a brilliant point for our discussion section. However, we should also mention the downside—high hive density in cities can increase competition among wild solitary bees for nectar.' }
+                ],
+                questions: [
+                    {
+                        id: 'l1',
+                        type: 'TFNG',
+                        text: 'Urban honey samples contained dangerous amounts of heavy metals.',
+                        options: ['TRUE', 'FALSE', 'NOT GIVEN'],
+                        answer: 'FALSE',
+                        explanation: 'Chloe khẳng định: "...the concentrations were well below safety limits" (nồng độ thấp hơn nhiều so với giới hạn an toàn).'
+                    },
+                    {
+                        id: 'l2',
+                        type: 'MCQ',
+                        text: 'Why did urban hives produce more honey than rural ones?',
+                        options: [
+                            'A. Urban beekeepers feed bees extra sugar.',
+                            'B. Cities offer diverse flowers across a longer season.',
+                            'C. Rural farms use too many pesticides.'
+                        ],
+                        answer: 'B. Cities offer diverse flowers across a longer season.',
+                        explanation: 'Chloe giải thích công viên và vườn ban công có nhiều loài hoa nở vào các thời điểm khác nhau, tạo mùa kiếm ăn dài hơn.'
+                    },
+                    {
+                        id: 'l3',
+                        type: 'FILL',
+                        text: 'Too many urban beehives may create excessive __________ for wild solitary bees.',
+                        answer: 'competition',
+                        explanation: 'Liam cảnh báo: "...high hive density in cities can increase competition among wild solitary bees for nectar."'
+                    }
+                ]
+            }
+        ];
+
+        // =========================================================================
+        // 2. DỮ LIỆU TỪ VỰNG, NGỮ PHÁP & LỘ TRÌNH (GIỮ NGUYÊN & TÍCH HỢP)
+        // =========================================================================
+        const VOCAB_DATA = [
+            { id: 1, word: 'Unprecedented', ipa: '/ʌnˈpres.ɪ.den.tɪd/', type: 'adj', meaning: 'Chưa từng có tiền lệ', example: 'Modern rackets hit the ball with unprecedented velocity.', topic: 'Technology' },
+            { id: 2, word: 'Amplify', ipa: '/ˈæm.plɪ.faɪ/', type: 'v', meaning: 'Khuếch đại, làm tăng thêm', example: 'Social media algorithms amplify the reach of emotional posts.', topic: 'Media' },
+            { id: 3, word: 'Plausible', ipa: '/ˈplɔː.zə.bəl/', type: 'adj', meaning: 'Hợp lý, có vẻ đáng tin', example: 'The brain needs a plausible explanation to replace false beliefs.', topic: 'Psychology' },
+            { id: 4, word: 'Proliferate', ipa: '/prəˈlɪf.ər.eɪt/', type: 'v', meaning: 'Sinh sôi, gia tăng nhanh chóng', example: 'Space debris continues to proliferate in low Earth orbit.', topic: 'Environment' },
+            { id: 5, word: 'Mitigate', ipa: '/ˈmɪt.ɪ.ɡeɪt/', type: 'v', meaning: 'Giảm nhẹ, làm dịu bớt', example: 'Vertical forests help mitigate the urban heat island effect.', topic: 'Architecture' },
+            { id: 6, word: 'Deteriorate', ipa: '/dɪˈtɪə.ri.ə.reɪt/', type: 'v', meaning: 'Trở nên tồi tệ hơn, suy thoái', example: 'Air quality can deteriorate rapidly without green spaces.', topic: 'Environment' }
+        ];
+
+        const GRAMMAR_GUIDES = [
+            {
+                title: 'Cấu trúc Câu phức nhượng bộ (Concession)',
+                formula: 'Although / Even though + S + V, S + V  |  Despite / In spite of + N/V-ing, S + V',
+                example: 'Despite being heavier, wooden rackets offered superior control.',
+                tip: 'Dùng trong Writing Task 2 để phản biện hoặc thừa nhận mặt trái của một vấn đề (Band 7.0+).'
+            },
+            {
+                title: 'Mệnh đề quan hệ rút gọn (Reduced Relative Clauses)',
+                formula: 'N + V-ing (chủ động) / N + V-ed/P2 (bị động)',
+                example: 'Studies analyzing millions of posts show that falsehoods spread faster.',
+                tip: 'Giúp câu văn học thuật súc tích và tăng điểm Grammatical Range.'
+            },
+            {
+                title: 'Dàn ý Writing Task 2: Opinion (Agree/Disagree)',
+                formula: 'Intro (Paraphrase + Thesis) -> Body 1 (Reason 1 + Example) -> Body 2 (Reason 2 + Example) -> Conclusion',
+                example: 'Topic: Should governments invest more in space exploration or environmental protection?',
+                tip: 'Luôn giữ lập trường nhất quán từ mở bài đến kết bài.'
+            }
+        ];
+
+        const PLACEMENT_QUESTIONS = [
+            { q: 'Choose the correct academic word: The rapid ________ of misinformation poses a threat to public trust.', options: ['proliferation', 'proliferate', 'prolific', 'proliferated'], ans: 0 },
+            { q: 'Identify the correct grammar: Had the government acted earlier, the species ________ extinct.', options: ['would not become', 'would not have become', 'will not become', 'had not become'], ans: 1 },
+            { q: 'Reading comprehension: "Prebunking acts like a vaccine against fake news." What does this imply?', options: ['It cures people after they believe fake news.', 'It prepares people in advance to recognize manipulation.', 'It bans social media platforms.', 'It replaces traditional journalism.'], ans: 1 },
+            { q: 'Which sentence is most appropriate for IELTS Writing Task 2?', options: ['A lot of people think cars are bad for the air.', 'It is widely argued that vehicular emissions significantly degrade urban air quality.', 'Cars make pollution very terrible in big cities.', 'I totally agree that cars ruin our environment.'], ans: 1 }
+        ];
+
+        // =========================================================================
+        // 3. HELPER COMPONENTS & UTILS
+        // =========================================================================
+        const Icon = ({ name, className = "w-5 h-5" }) => {
+            const ref = useRef(null);
+            useEffect(() => {
+                if (window.lucide && ref.current) {
+                    ref.current.innerHTML = `<i data-lucide="${name}" class="${className}"></i>`;
+                    window.lucide.createIcons({ root: ref.current });
+                }
+            }, [name, className]);
+            return <span ref={ref} className="inline-flex items-center justify-center" />;
+        };
+
+        // Quy đổi điểm sang Band Score IELTS tham khảo
+        const calculateBandScore = (correct, total) => {
+            if (total === 0) return '0.0';
+            const ratio = correct / total;
+            if (ratio >= 0.95) return '9.0';
+            if (ratio >= 0.88) return '8.5';
+            if (ratio >= 0.80) return '8.0';
+            if (ratio >= 0.72) return '7.5';
+            if (ratio >= 0.65) return '7.0';
+            if (ratio >= 0.55) return '6.5';
+            if (ratio >= 0.45) return '6.0';
+            if (ratio >= 0.35) return '5.5';
+            if (ratio >= 0.25) return '5.0';
+            return '4.5';
+        };
+
+        // =========================================================================
+        // 4. MAIN APPLICATION COMPONENT
+        // =========================================================================
+        function App() {
+            const [activeTab, setActiveTab] = useState('practice'); // 'dashboard' | 'practice' | 'vocab' | 'grammar' | 'ai'
+            const [toastMessage, setToastMessage] = useState(null);
+
+            // State cho Lộ trình & Placement Test
+            const [userLevel, setUserLevel] = useState(() => localStorage.getItem('binhielts_level') || 'Band 6.0 (Mục tiêu 7.5)');
+            const [showPlacementModal, setShowPlacementModal] = useState(false);
+            const [placementAnswers, setPlacementAnswers] = useState({});
+
+            // State cho Từ vựng
+            const [learnedVocab, setLearnedVocab] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('binhielts_learned_vocab')) || []; }
+                catch { return []; }
+            });
+
+            // State cho Phòng Luyện Đề (Practice Arena)
+            const [selectedSource, setSelectedSource] = useState('All');
+            const [selectedSkill, setSelectedSkill] = useState('All');
+            const [activeExam, setActiveExam] = useState(null); // Đề đơn lẻ hoặc Full Test object
+            const [isFullTestMode, setIsFullTestMode] = useState(false);
+            const [fullTestPartIndex, setFullTestPartIndex] = useState(0);
+            const [userAnswers, setUserAnswers] = useState({});
+            const [isSubmitted, setIsSubmitted] = useState(false);
+            const [timeLeft, setTimeLeft] = useState(0);
+            const [mobileExamPane, setMobileExamPane] = useState('passage'); // 'passage' | 'questions'
+            const [examHistory, setExamHistory] = useState(() => {
+                try { return JSON.parse(localStorage.getItem('binhielts_exam_history')) || []; }
+                catch { return []; }
+            });
+
+            // State cho Audio Listening (Web Speech API)
+            const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+            const [currentLineIndex, setCurrentLineIndex] = useState(-1);
+            const [showTranscript, setShowTranscript] = useState(false);
+
+            // State cho Gia sư AI Gemini
+            const [aiSkill, setAiSkill] = useState('Writing Task 2');
+            const [aiPromptText, setAiPromptText] = useState('Some people believe that unpaid community service should be a compulsory part of high school programmes. To what extent do you agree or disagree?');
+            const [aiUserResponse, setAiUserResponse] = useState('');
+            const [aiFeedback, setAiFeedback] = useState(null);
+            const [isGrading, setIsGrading] = useState(false);
+            const [geminiApiKey, setGeminiApiKey] = useState(() => localStorage.getItem('binhielts_api_key') || '');
+
+            const showToast = (msg) => {
+                setToastMessage(msg);
+                setTimeout(() => setToastMessage(null), 3000);
+            };
+
+            // Lưu trạng thái từ vựng
+            useEffect(() => {
+                localStorage.setItem('binhielts_learned_vocab', JSON.stringify(learnedVocab));
+            }, [learnedVocab]);
+
+            // Lưu lịch sử thi
+            useEffect(() => {
+                localStorage.setItem('binhielts_exam_history', JSON.stringify(examHistory));
+            }, [examHistory]);
+
+            // Đồng hồ đếm ngược khi làm bài
+            useEffect(() => {
+                if (!activeExam || isSubmitted || timeLeft <= 0) return;
+                const timer = setInterval(() => {
+                    setTimeLeft((prev) => {
+                        if (prev <= 1) {
+                            clearInterval(timer);
+                            handleSubmitExam();
+                            return 0;
+                        }
+                        return prev - 1;
+                    });
+                }, 1000);
+                return () => clearInterval(timer);
+            }, [activeExam, isSubmitted, timeLeft]);
+
+            // Dừng đọc audio khi thoát đề
+            useEffect(() => {
+                return () => {
+                    if (window.speechSynthesis) window.speechSynthesis.cancel();
+                };
+            }, [activeExam]);
+
+            // Phát âm từ vựng US/UK
+            const speakWord = (text, accent = 'en-US') => {
+                if (!window.speechSynthesis) {
+                    showToast('Trình duyệt không hỗ trợ phát âm.');
+                    return;
+                }
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = accent;
+                utterance.rate = 0.92;
+                window.speechSynthesis.speak(utterance);
+            };
+
+            // Phát hội thoại Listening phân vai giọng Nam / Nữ
+            const togglePlayListeningAudio = (script) => {
+                if (!window.speechSynthesis) {
+                    showToast('Trình duyệt không hỗ trợ Web Speech API.');
+                    return;
+                }
+                if (isPlayingAudio) {
+                    window.speechSynthesis.cancel();
+                    setIsPlayingAudio(false);
+                    setCurrentLineIndex(-1);
+                    return;
+                }
+
+                setIsPlayingAudio(true);
+                const voices = window.speechSynthesis.getVoices();
+                const femaleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google UK English Female') || v.name.includes('Zira'))) || voices.find(v => v.lang.includes('en-GB'));
+                const maleVoice = voices.find(v => v.lang.includes('en') && (v.name.includes('Male') || v.name.includes('Daniel') || v.name.includes('Google UK English Male') || v.name.includes('David'))) || voices.find(v => v.lang.includes('en-US'));
+
+                let idx = 0;
+                const speakNextLine = () => {
+                    if (idx >= script.length) {
+                        setIsPlayingAudio(false);
+                        setCurrentLineIndex(-1);
+                        return;
+                    }
+                    setCurrentLineIndex(idx);
+                    const line = script[idx];
+                    const utterance = new SpeechSynthesisUtterance(line.text);
+                    utterance.lang = 'en-GB';
+                    utterance.rate = 0.95;
+                    if (line.gender === 'female' && femaleVoice) {
+                        utterance.voice = femaleVoice;
+                        utterance.pitch = 1.08;
+                    } else if (line.gender === 'male' && maleVoice) {
+                        utterance.voice = maleVoice;
+                        utterance.pitch = 0.92;
+                    }
+                    utterance.onend = () => {
+                        idx++;
+                        speakNextLine();
+                    };
+                    utterance.onerror = () => {
+                        setIsPlayingAudio(false);
+                        setCurrentLineIndex(-1);
+                    };
+                    window.speechSynthesis.speak(utterance);
+                };
+                speakNextLine();
+            };
+
+            // Bắt đầu làm 1 Part lẻ
+            const startSinglePart = (exam) => {
+                window.speechSynthesis?.cancel();
+                setIsPlayingAudio(false);
+                setCurrentLineIndex(-1);
+                setShowTranscript(false);
+                setIsFullTestMode(false);
+                setFullTestPartIndex(0);
+                setActiveExam({
+                    title: `${exam.source} • ${exam.testName}`,
+                    skill: exam.skill,
+                    parts: [exam]
+                });
+                setUserAnswers({});
+                setIsSubmitted(false);
+                setTimeLeft(exam.durationMinutes * 60);
+                setMobileExamPane('passage');
+            };
+
+            // Bắt đầu làm Full Test (Ghép 3 Passages Reading hoặc 2 Sections Listening)
+            const startFullTest = (skillType) => {
+                window.speechSynthesis?.cancel();
+                setIsPlayingAudio(false);
+                setCurrentLineIndex(-1);
+                setShowTranscript(false);
+                const selectedParts = EXAM_DATABASE.filter(e => e.skill === skillType).slice(0, skillType === 'Reading' ? 3 : 2);
+                setIsFullTestMode(true);
+                setFullTestPartIndex(0);
+                setActiveExam({
+                    title: `Full Mock Test - IELTS Academic ${skillType}`,
+                    skill: skillType,
+                    parts: selectedParts
+                });
+                setUserAnswers({});
+                setIsSubmitted(false);
+                setTimeLeft((skillType === 'Reading' ? 60 : 30) * 60);
+                setMobileExamPane('passage');
+            };
+
+            // Nộp bài & Chấm điểm tự động
+            const handleSubmitExam = () => {
+                window.speechSynthesis?.cancel();
+                setIsPlayingAudio(false);
+                setIsSubmitted(true);
+                setShowTranscript(true);
+
+                let totalQ = 0;
+                let correctQ = 0;
+                activeExam.parts.forEach(part => {
+                    part.questions.forEach(q => {
+                        totalQ++;
+                        const key = `${part.id}_${q.id}`;
+                        const uAns = (userAnswers[key] || '').trim().toLowerCase();
+                        const cAns = q.answer.trim().toLowerCase();
+                        if (uAns === cAns) correctQ++;
+                    });
+                });
+
+                const band = calculateBandScore(correctQ, totalQ);
+                const newRecord = {
+                    id: Date.now(),
+                    date: new Date().toLocaleDateString('vi-VN'),
+                    title: activeExam.title,
+                    skill: activeExam.skill,
+                    score: `${correctQ}/${totalQ}`,
+                    band
+                };
+                setExamHistory(prev => [newRecord, ...prev]);
+                showToast(`Đã nộp bài! Kết quả: ${correctQ}/${totalQ} (Band ~${band})`);
+            };
+
+            // Tính điểm hiện tại khi đã nộp bài
+            const currentExamResult = useMemo(() => {
+                if (!activeExam || !isSubmitted) return null;
+                let total = 0;
+                let correct = 0;
+                activeExam.parts.forEach(part => {
+                    part.questions.forEach(q => {
+                        total++;
+                        const key = `${part.id}_${q.id}`;
+                        if ((userAnswers[key] || '').trim().toLowerCase() === q.answer.trim().toLowerCase()) {
+                            correct++;
+                        }
+                    });
+                });
+                return { correct, total, band: calculateBandScore(correct, total) };
+            }, [activeExam, isSubmitted, userAnswers]);
+
+            // Lọc danh sách đề thi
+            const filteredExams = useMemo(() => {
+                return EXAM_DATABASE.filter(item => {
+                    const matchSource = selectedSource === 'All' || item.source === selectedSource;
+                    const matchSkill = selectedSkill === 'All' || item.skill === selectedSkill;
+                    return matchSource && matchSkill;
+                });
+            }, [selectedSource, selectedSkill]);
+
+            // Xử lý chấm bài AI Gemini (hoặc mô phỏng phân tích chuyên sâu nếu chưa nhập API key)
+            const handleAiGrade = async () => {
+                if (!aiUserResponse.trim() || aiUserResponse.trim().split(/\s+/).length < 15) {
+                    showToast('Vui lòng nhập bài viết/câu trả lời ít nhất 15 từ để AI chấm điểm.');
+                    return;
+                }
+                setIsGrading(true);
+                setAiFeedback(null);
+
+                if (geminiApiKey.trim()) {
+                    try {
+                        const prompt = `Bạn là giám khảo IELTS chuyên nghiệp. Hãy chấm điểm bài làm ${aiSkill} sau theo 4 tiêu chí chuẩn IELTS (Task Response/Fluency, Coherence & Cohesion, Lexical Resource, Grammatical Range & Accuracy), cho điểm Band cụ thể, chỉ ra lỗi sai và viết lại 1 đoạn nâng cấp Band 8.5+. Trả lời bằng tiếng Việt rõ ràng.\nĐề bài: ${aiPromptText}\nBài làm: ${aiUserResponse}`;
+                        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${geminiApiKey.trim()}`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+                        });
+                        const data = await res.json();
+                        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (text) {
+                            setAiFeedback({ isRealApi: true, content: text });
+                            setIsGrading(false);
+                            return;
+                        }
+                    } catch (err) {
+                        showToast('Lỗi kết nối API Key, chuyển sang chế độ phân tích mẫu.');
+                    }
+                }
+
+                // Chế độ phân tích tức thì tích hợp sẵn
+                setTimeout(() => {
+                    const wordCount = aiUserResponse.trim().split(/\s+/).length;
+                    const estimatedBand = wordCount > 120 ? '7.0' : wordCount > 60 ? '6.5' : '6.0';
+                    setAiFeedback({
+                        isRealApi: false,
+                        band: estimatedBand,
+                        wordCount,
+                        strengths: 'Bố cục câu rõ ràng, trả lời đúng trọng tâm câu hỏi và có sử dụng từ nối logic.',
+                        improvements: 'Nên bổ sung thêm các cụm từ học thuật (Collocations) như "civic responsibility", "alleviate societal burdens" và dùng thêm câu phức nhượng bộ.',
+                        sampleUpgrade: 'Compulsory community service not only fosters a profound sense of civic duty among adolescents, but also equips them with invaluable interpersonal skills prior to entering the workforce.'
+                    });
+                    setIsGrading(false);
+                }, 900);
+            };
+
+            const formatTime = (sec) => {
+                const m = Math.floor(sec / 60).toString().padStart(2, '0');
+                const s = (sec % 60).toString().padStart(2, '0');
+                return `${m}:${s}`;
+            };
+
+            // =====================================================================
+            // GIAO DIỆN PHÒNG LÀM BÀI THỰC CHIẾN (ACTIVE EXAM VIEW)
+            // =====================================================================
+            if (activeExam) {
+                const currentPart = activeExam.parts[fullTestPartIndex];
+                return (
+                    <div className="min-h-screen flex flex-col bg-slate-50">
+                        {/* Sticky Exam Header */}
+                        <header className="sticky top-0 z-30 bg-white border-b border-slate-200 px-3 sm:px-6 py-2.5 shadow-sm">
+                            <div className="max-w-7xl mx-auto flex items-center justify-between gap-2">
+                                <div className="flex items-center gap-2 min-w-0">
+                                    <button
+                                        onClick={() => {
+                                            window.speechSynthesis?.cancel();
+                                            setActiveExam(null);
+                                        }}
+                                        className="p-2 rounded-xl hover:bg-slate-100 text-slate-600 transition flex-shrink-0"
+                                        title="Thoát phòng thi"
+                                    >
+                                        <Icon name="arrow-left" className="w-5 h-5" />
+                                    </button>
+                                    <div className="truncate">
+                                        <span className="text-[11px] font-bold uppercase tracking-wider text-indigo-600 block">
+                                            {activeExam.skill} Practice
+                                        </span>
+                                        <h1 className="text-sm sm:text-base font-bold text-slate-900 truncate">
+                                            {activeExam.title}
+                                        </h1>
+                                    </div>
+                                </div>
+
+                                <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                                    {!isSubmitted ? (
+                                        <>
+                                            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-mono text-sm font-bold ${timeLeft < 180 ? 'bg-rose-100 text-rose-700 animate-pulse' : 'bg-slate-100 text-slate-800'}`}>
+                                                <Icon name="clock" className="w-4 h-4" />
+                                                <span>{formatTime(timeLeft)}</span>
+                                            </div>
+                                            <button
+                                                onClick={handleSubmitExam}
+                                                className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs sm:text-sm font-semibold px-3.5 sm:px-4 py-2 rounded-xl shadow-sm transition flex items-center gap-1.5"
+                                            >
+                                                <Icon name="check-circle" className="w-4 h-4" />
+                                                <span>Nộp bài</span>
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <div className="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl">
+                                            <span className="text-xs font-medium text-emerald-700">Band:</span>
+                                            <span className="text-base font-extrabold text-emerald-700">{currentExamResult?.band}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Full Test Part Switcher */}
+                            {isFullTestMode && (
+                                <div className="max-w-7xl mx-auto mt-2 pt-2 border-t border-slate-100 flex items-center gap-2 overflow-x-auto no-scrollbar">
+                                    {activeExam.parts.map((p, idx) => (
+                                        <button
+                                            key={p.id}
+                                            onClick={() => {
+                                                window.speechSynthesis?.cancel();
+                                                setIsPlayingAudio(false);
+                                                setFullTestPartIndex(idx);
+                                            }}
+                                            className={`px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition ${fullTestPartIndex === idx ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`}
+                                        >
+                                            {p.part}: {p.title.slice(0, 22)}...
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {/* Mobile Pane Switcher (Bài đọc/Audio vs Câu hỏi) */}
+                            <div className="lg:hidden mt-2 grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-xl">
+                                <button
+                                    onClick={() => setMobileExamPane('passage')}
+                                    className={`py-1.5 text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 ${mobileExamPane === 'passage' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600'}`}
+                                >
+                                    <Icon name={currentPart.skill === 'Reading' ? 'book-open' : 'headphones'} className="w-4 h-4" />
+                                    <span>{currentPart.skill === 'Reading' ? 'Bài đọc (Passage)' : 'Audio & Transcript'}</span>
+                                </button>
+                                <button
+                                    onClick={() => setMobileExamPane('questions')}
+                                    className={`py-1.5 text-xs font-bold rounded-lg transition flex items-center justify-center gap-1.5 ${mobileExamPane === 'questions' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600'}`}
+                                >
+                                    <Icon name="list-checks" className="w-4 h-4" />
+                                    <span>Câu hỏi ({currentPart.questions.length})</span>
+                                </button>
+                            </div>
+                        </header>
+
+                        {/* Result Summary Banner (Khi đã nộp bài) */}
+                        {isSubmitted && currentExamResult && (
+                            <div className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white px-4 py-4 shadow-inner">
+                                <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    <div>
+                                        <h2 className="text-lg font-bold flex items-center gap-2">
+                                            <Icon name="award" className="w-5 h-5 text-amber-300" />
+                                            Hoàn thành bài thi! Đáp án & Giải thích chi tiết đã được mở khóa
+                                        </h2>
+                                        <p className="text-indigo-100 text-xs sm:text-sm mt-0.5">
+                                            Bạn trả lời đúng <strong className="text-white">{currentExamResult.correct}/{currentExamResult.total}</strong> câu hỏi • Quy đổi tương đương <strong className="text-amber-300">IELTS Band {currentExamResult.band}</strong>
+                                        </p>
+                                    </div>
+                                    <button
+                                        onClick={() => setActiveExam(null)}
+                                        className="bg-white text-indigo-700 hover:bg-indigo-50 px-4 py-2 rounded-xl text-xs font-bold shadow-sm transition whitespace-nowrap"
+                                    >
+                                        Quay về Kho Đề Thi
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Main Split Screen Content */}
+                        <main className="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+                            {/* Left Column: Passage or Listening Audio Player */}
+                            <div className={`lg:col-span-7 bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-sm overflow-y-auto max-h-[calc(100vh-150px)] ${mobileExamPane === 'passage' ? 'block' : 'hidden lg:block'}`}>
+                                <div className="flex flex-wrap items-center gap-2 mb-3">
+                                    <span className="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                        {currentPart.source}
+                                    </span>
+                                    <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-slate-100 text-slate-600">
+                                        {currentPart.level}
+                                    </span>
+                                </div>
+                                <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mb-1">
+                                    {currentPart.title}
+                                </h2>
+                                <p className="text-xs sm:text-sm text-slate-500 italic mb-5 pb-4 border-b border-slate-100">
+                                    {currentPart.subtitle}
+                                </p>
+
+                                {currentPart.skill === 'Reading' ? (
+                                    <div className="space-y-4 academic-text text-[15px] sm:text-base text-slate-800">
+                                        {currentPart.passage.map((para, index) => (
+                                            <p key={index} className="leading-relaxed">
+                                                <span className="inline-block font-sans text-xs font-bold text-indigo-500 mr-2 select-none">
+                                                    [{String.fromCharCode(65 + index)}]
+                                                </span>
+                                                {para}
+                                            </p>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    /* Listening Audio Controls & Transcript */
+                                    <div className="space-y-5">
+                                        <div className="bg-slate-900 text-white rounded-2xl p-5 shadow-md">
+                                            <div className="flex items-center justify-between gap-4">
+                                                <div>
+                                                    <span className="text-xs uppercase tracking-wider text-indigo-300 font-bold">
+                                                        IELTS Listening Audio Simulator
+                                                    </span>
+                                                    <p className="text-sm text-slate-300 mt-1">
+                                                        Giọng đọc hội thoại phân vai Nam / Nữ tự động
+                                                    </p>
+                                                </div>
+                                                <button
+                                                    onClick={() => togglePlayListeningAudio(currentPart.audioScript)}
+                                                    className={`px-4 py-3 rounded-xl font-bold text-sm flex items-center gap-2 transition shadow-lg ${isPlayingAudio ? 'bg-rose-500 hover:bg-rose-600 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'}`}
+                                                >
+                                                    <Icon name={isPlayingAudio ? 'square' : 'play'} className="w-4 h-4" />
+                                                    <span>{isPlayingAudio ? 'Dừng phát' : 'Nghe Audio'}</span>
+                                                </button>
+                                            </div>
+                                            {isPlayingAudio && (
+                                                <div className="mt-4 pt-3 border-t border-slate-800 flex items-center gap-2 text-xs text-emerald-400">
+                                                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                                                    Đang phát câu thoại {currentLineIndex + 1} / {currentPart.audioScript.length}...
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="flex items-center justify-between">
+                                            <h3 className="text-sm font-bold text-slate-700">Bản chép lời (Audio Transcript)</h3>
+                                            <button
+                                                onClick={() => setShowTranscript(!showTranscript)}
+                                                className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 flex items-center gap-1"
+                                            >
+                                                <Icon name={showTranscript ? 'eye-off' : 'eye'} className="w-4 h-4" />
+                                                <span>{showTranscript ? 'Ẩn Transcript' : 'Hiện Transcript'}</span>
+                                            </button>
+                                        </div>
+
+                                        {showTranscript ? (
+                                            <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                                {currentPart.audioScript.map((line, i) => (
+                                                    <div
+                                                        key={i}
+                                                        className={`p-3 rounded-xl text-sm transition ${currentLineIndex === i ? 'bg-indigo-100 border border-indigo-300' : 'bg-white border border-slate-100'}`}
+                                                    >
+                                                        <span className={`font-bold text-xs block mb-1 ${line.gender === 'female' ? 'text-pink-600' : 'text-blue-600'}`}>
+                                                            {line.speaker}:
+                                                        </span>
+                                                        <p className="text-slate-800 leading-relaxed">{line.text}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        ) : (
+                                            <div className="p-6 text-center bg-slate-50 rounded-xl border border-dashed border-slate-300 text-slate-500 text-xs sm:text-sm">
+                                                Transcript được ẩn mặc định để luyện kỹ năng nghe thực tế. Bấm "Hiện Transcript" nếu bạn muốn vừa nghe vừa theo dõi chữ.
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Right Column: Questions & Explanations */}
+                            <div className={`lg:col-span-5 bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-sm overflow-y-auto max-h-[calc(100vh-150px)] ${mobileExamPane === 'questions' ? 'block' : 'hidden lg:block'}`}>
+                                <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                                    <h3 className="font-bold text-slate-900 flex items-center gap-2">
+                                        <Icon name="help-circle" className="w-5 h-5 text-indigo-600" />
+                                        <span>Câu hỏi ({currentPart.questions.length} câu)</span>
+                                    </h3>
+                                    <span className="text-xs text-slate-500">{currentPart.part}</span>
+                                </div>
+
+                                <div className="space-y-6">
+                                    {currentPart.questions.map((q, qIdx) => {
+                                        const answerKey = `${currentPart.id}_${q.id}`;
+                                        const userVal = userAnswers[answerKey] || '';
+                                        const isCorrect = isSubmitted && userVal.trim().toLowerCase() === q.answer.trim().toLowerCase();
+
+                                        return (
+                                            <div
+                                                key={q.id}
+                                                className={`p-4 rounded-2xl border transition ${
+                                                    !isSubmitted
+                                                        ? 'bg-slate-50/70 border-slate-200'
+                                                        : isCorrect
+                                                        ? 'bg-emerald-50/60 border-emerald-300'
+                                                        : 'bg-rose-50/60 border-rose-300'
+                                                }`}
+                                            >
+                                                <div className="flex items-start gap-2.5 mb-3">
+                                                    <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+                                                        {qIdx + 1}
+                                                    </span>
+                                                    <p className="text-sm font-semibold text-slate-900 leading-snug">
+                                                        {q.text}
+                                                    </p>
+                                                </div>
+
+                                                {/* Render Options based on Question Type */}
+                                                {(q.type === 'TFNG' || q.type === 'MCQ') && (
+                                                    <div className="space-y-2 pl-8">
+                                                        {q.options.map((opt) => {
+                                                            const selected = userVal === opt;
+                                                            return (
+                                                                <button
+                                                                    key={opt}
+                                                                    disabled={isSubmitted}
+                                                                    onClick={() => setUserAnswers(prev => ({ ...prev, [answerKey]: opt }))}
+                                                                    className={`w-full text-left px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-medium border transition flex items-center justify-between ${
+                                                                        selected
+                                                                            ? 'bg-indigo-600 text-white border-indigo-600 shadow-sm'
+                                                                            : 'bg-white text-slate-700 border-slate-200 hover:border-indigo-300'
+                                                                    }`}
+                                                                >
+                                                                    <span>{opt}</span>
+                                                                    {isSubmitted && opt === q.answer && (
+                                                                        <span className="text-[11px] font-bold bg-emerald-500 text-white px-2 py-0.5 rounded-md">
+                                                                            Đáp án đúng
+                                                                        </span>
+                                                                    )}
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                )}
+
+                                                {q.type === 'FILL' && (
+                                                    <div className="pl-8">
+                                                        <input
+                                                            type="text"
+                                                            disabled={isSubmitted}
+                                                            value={userVal}
+                                                            onChange={(e) => setUserAnswers(prev => ({ ...prev, [answerKey]: e.target.value }))}
+                                                            placeholder="Nhập 1 từ trong bài..."
+                                                            className="w-full px-3.5 py-2.5 rounded-xl text-sm border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                        />
+                                                    </div>
+                                                )}
+
+                                                {/* Detailed Answer Key & Explanation after submission */}
+                                                {isSubmitted && (
+                                                    <div className="mt-4 ml-8 p-3.5 rounded-xl bg-white border border-slate-200 text-xs space-y-1.5 shadow-sm">
+                                                        <div className="flex items-center justify-between">
+                                                            <span className={`font-bold flex items-center gap-1 ${isCorrect ? 'text-emerald-700' : 'text-rose-700'}`}>
+                                                                <Icon name={isCorrect ? 'check-circle-2' : 'x-circle'} className="w-4 h-4" />
+                                                                {isCorrect ? 'Chính xác!' : `Bạn chọn: ${userVal || '(Bỏ trống)'}`}
+                                                            </span>
+                                                            <span className="font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">
+                                                                Đáp án: {q.answer}
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-slate-600 leading-relaxed pt-1 border-t border-slate-100">
+                                                            <strong className="text-slate-800">Giải thích & Dẫn chứng: </strong>
+                                                            {q.explanation}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </main>
+                    </div>
+                );
+            }
+
+            // =====================================================================
+            // GIAO DIỆN CHÍNH CỦA ỨNG DỤNG BINHIELTS
+            // =====================================================================
+            return (
+                <div className="min-h-screen pb-24 md:pb-10">
+                    {/* Toast Notification */}
+                    {toastMessage && (
+                        <div className="fixed top-4 right-4 z-50 bg-slate-900 text-white text-xs sm:text-sm font-medium px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 animate-bounce">
+                            <Icon name="sparkles" className="w-4 h-4 text-amber-400" />
+                            <span>{toastMessage}</span>
+                        </div>
+                    )}
+
+                    {/* Top Navigation Bar */}
+                    <header className="sticky top-0 z-30 bg-white/90 backdrop-blur-md border-b border-slate-200">
+                        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white font-extrabold flex items-center justify-center shadow-sm">
+                                    B
+                                </div>
+                                <div>
+                                    <span className="font-extrabold text-lg tracking-tight text-slate-900">binh<span className="text-indigo-600">ielts</span></span>
+                                    <span className="hidden sm:inline-block ml-2 text-[11px] font-semibold bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full">
+                                        Cam 16-19 & AI Tutor
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Desktop Navigation Tabs */}
+                            <nav className="hidden md:flex items-center gap-1 bg-slate-100 p-1 rounded-2xl">
+                                {[
+                                    { id: 'dashboard', label: 'Lộ trình & Tiến độ', icon: 'layout-dashboard' },
+                                    { id: 'practice', label: 'Phòng Luyện Đề', icon: 'file-text' },
+                                    { id: 'vocab', label: 'Từ vựng US/UK', icon: 'book-a' },
+                                    { id: 'grammar', label: 'Ngữ pháp & Dàn ý', icon: 'layers' },
+                                    { id: 'ai', label: 'Gia sư AI Gemini', icon: 'bot' }
+                                ].map(tab => (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => setActiveTab(tab.id)}
+                                        className={`px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
+                                            activeTab === tab.id
+                                                ? 'bg-white text-indigo-600 shadow-sm'
+                                                : 'text-slate-600 hover:text-slate-900'
+                                        }`}
+                                    >
+                                        <Icon name={tab.icon} className="w-4 h-4" />
+                                        <span>{tab.label}</span>
+                                    </button>
+                                ))}
+                            </nav>
+
+                            <button
+                                onClick={() => setShowPlacementModal(true)}
+                                className="text-xs font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-2 rounded-xl transition flex items-center gap-1.5"
+                            >
+                                <Icon name="target" className="w-4 h-4" />
+                                <span className="hidden sm:inline">Test đầu vào</span>
+                                <span className="sm:hidden">Đầu vào</span>
+                            </button>
+                        </div>
+                    </header>
+
+                    {/* Main Container */}
+                    <main className="max-w-6xl mx-auto px-4 pt-6">
+                        {/* TAB 1: DASHBOARD & LỘ TRÌNH CÁ NHÂN HÓA */}
+                        {activeTab === 'dashboard' && (
+                            <div className="space-y-6">
+                                <div className="bg-gradient-to-br from-indigo-600 via-indigo-700 to-violet-800 rounded-3xl p-6 sm:p-8 text-white shadow-lg">
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                        <div>
+                                            <span className="inline-block px-3 py-1 rounded-full bg-white/15 text-xs font-semibold mb-3">
+                                                Lộ trình học tập cá nhân hóa
+                                            </span>
+                                            <h1 className="text-2xl sm:text-3xl font-extrabold mb-2">
+                                                Trình độ hiện tại: {userLevel}
+                                            </h1>
+                                            <p className="text-indigo-100 text-sm max-w-xl">
+                                                Luyện tập đều đặn với bộ đề chuẩn Cambridge 16-19 và Actual Tests để bứt phá band điểm mục tiêu.
+                                            </p>
+                                        </div>
+                                        <div className="flex gap-3">
+                                            <button
+                                                onClick={() => setActiveTab('practice')}
+                                                className="bg-white text-indigo-700 hover:bg-indigo-50 font-bold text-xs sm:text-sm px-5 py-3 rounded-2xl shadow-md transition"
+                                            >
+                                                Luyện đề ngay
+                                            </button>
+                                            <button
+                                                onClick={() => setShowPlacementModal(true)}
+                                                className="bg-indigo-500/40 hover:bg-indigo-500/60 border border-white/20 text-white font-semibold text-xs sm:text-sm px-4 py-3 rounded-2xl transition"
+                                            >
+                                                Đánh giá lại
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Stats Grid */}
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                                        <span className="text-xs text-slate-500 font-medium">Đề đã hoàn thành</span>
+                                        <p className="text-2xl font-extrabold text-slate-900 mt-1">{examHistory.length}</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                                        <span className="text-xs text-slate-500 font-medium">Từ vựng đã thuộc</span>
+                                        <p className="text-2xl font-extrabold text-emerald-600 mt-1">{learnedVocab.length}/{VOCAB_DATA.length}</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                                        <span className="text-xs text-slate-500 font-medium">Kho đề Cambridge</span>
+                                        <p className="text-2xl font-extrabold text-indigo-600 mt-1">{EXAM_DATABASE.length} Parts</p>
+                                    </div>
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                                        <span className="text-xs text-slate-500 font-medium">Band gần nhất</span>
+                                        <p className="text-2xl font-extrabold text-amber-600 mt-1">
+                                            {examHistory.length > 0 ? examHistory[0].band : '--'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* Lịch sử làm bài */}
+                                <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+                                    <h2 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
+                                        <Icon name="history" className="w-5 h-5 text-indigo-600" />
+                                        <span>Lịch sử luyện đề & Điểm số</span>
+                                    </h2>
+                                    {examHistory.length === 0 ? (
+                                        <p className="text-sm text-slate-500 py-6 text-center">
+                                            Bạn chưa hoàn thành bài thi nào. Hãy vào <strong>Phòng Luyện Đề</strong> để bắt đầu!
+                                        </p>
+                                    ) : (
+                                        <div className="divide-y divide-slate-100">
+                                            {examHistory.map(item => (
+                                                <div key={item.id} className="py-3 flex items-center justify-between gap-4">
+                                                    <div>
+                                                        <p className="text-sm font-bold text-slate-900">{item.title}</p>
+                                                        <span className="text-xs text-slate-500">{item.date} • {item.skill}</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-3">
+                                                        <span className="text-xs font-semibold bg-slate-100 px-2.5 py-1 rounded-lg">
+                                                            Đúng {item.score}
+                                                        </span>
+                                                        <span className="text-sm font-extrabold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-lg">
+                                                            Band {item.band}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 2: PHÒNG LUYỆN ĐỀ (CAMBRIDGE 16-19 & ACTUAL TESTS) */}
+                        {activeTab === 'practice' && (
+                            <div className="space-y-6">
+                                {/* Banner & Full Test Quick Launch */}
+                                <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm">
+                                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                                        <div>
+                                            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600">
+                                                Practice Arena • Chuẩn Cambridge & Actual Tests
+                                            </span>
+                                            <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+                                                Kho Đề Thi Thực Chiến Có Đáp Án & Giải Thích Chi Tiết
+                                            </h1>
+                                            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+                                                Chọn làm lẻ từng Passage/Section hoặc thi thử Full Test bấm giờ chuẩn phòng thi thật.
+                                            </p>
+                                        </div>
+                                        <div className="flex flex-wrap gap-2.5">
+                                            <button
+                                                onClick={() => startFullTest('Reading')}
+                                                className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5"
+                                            >
+                                                <Icon name="book-open" className="w-4 h-4" />
+                                                <span>Full Reading Test (60p)</span>
+                                            </button>
+                                            <button
+                                                onClick={() => startFullTest('Listening')}
+                                                className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow-sm transition flex items-center gap-1.5"
+                                            >
+                                                <Icon name="headphones" className="w-4 h-4" />
+                                                <span>Full Listening Test (30p)</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Bộ lọc nguồn đề & Kỹ năng */}
+                                    <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+                                            {['All', 'Cambridge IELTS 19', 'Cambridge IELTS 18', 'Cambridge IELTS 17', 'Actual Tests 2024-2026'].map(src => (
+                                                <button
+                                                    key={src}
+                                                    onClick={() => setSelectedSource(src)}
+                                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition ${
+                                                        selectedSource === src
+                                                            ? 'bg-slate-900 text-white'
+                                                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                                    }`}
+                                                >
+                                                    {src === 'All' ? 'Tất cả nguồn đề' : src}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        <div className="flex items-center gap-1.5">
+                                            {['All', 'Reading', 'Listening'].map(sk => (
+                                                <button
+                                                    key={sk}
+                                                    onClick={() => setSelectedSkill(sk)}
+                                                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                                                        selectedSkill === sk
+                                                            ? 'bg-indigo-100 text-indigo-700 border border-indigo-200'
+                                                            : 'bg-white border border-slate-200 text-slate-600'
+                                                    }`}
+                                                >
+                                                    {sk === 'All' ? 'Tất cả kỹ năng' : sk}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Danh sách các đề thi */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {filteredExams.map(exam => (
+                                        <div
+                                            key={exam.id}
+                                            className="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md hover:border-indigo-300 transition flex flex-col justify-between"
+                                        >
+                                            <div>
+                                                <div className="flex items-center justify-between gap-2 mb-2.5">
+                                                    <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-indigo-50 text-indigo-700">
+                                                        {exam.source}
+                                                    </span>
+                                                    <span className={`px-2.5 py-1 rounded-lg text-[11px] font-bold flex items-center gap-1 ${
+                                                        exam.skill === 'Reading' ? 'bg-amber-50 text-amber-700' : 'bg-emerald-50 text-emerald-700'
+                                                    }`}>
+                                                        <Icon name={exam.skill === 'Reading' ? 'book-open' : 'headphones'} className="w-3.5 h-3.5" />
+                                                        {exam.skill} • {exam.part}
+                                                    </span>
+                                                </div>
+                                                <h3 className="text-base sm:text-lg font-extrabold text-slate-900 mb-1">
+                                                    {exam.title}
+                                                </h3>
+                                                <p className="text-xs text-slate-500 line-clamp-2 mb-4">
+                                                    {exam.subtitle}
+                                                </p>
+                                            </div>
+
+                                            <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                                                <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
+                                                    <span className="flex items-center gap-1">
+                                                        <Icon name="clock" className="w-3.5 h-3.5" /> {exam.durationMinutes} phút
+                                                    </span>
+                                                    <span className="flex items-center gap-1">
+                                                        <Icon name="help-circle" className="w-3.5 h-3.5" /> {exam.questions.length} câu
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    onClick={() => startSinglePart(exam)}
+                                                    className="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5"
+                                                >
+                                                    <span>Làm bài</span>
+                                                    <Icon name="arrow-right" className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 3: TỪ VỰNG ANH-VIỆT US/UK */}
+                        {activeTab === 'vocab' && (
+                            <div className="space-y-4">
+                                <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
+                                    <div>
+                                        <h2 className="text-lg font-extrabold text-slate-900">Kho Từ Vựng Học Thuật Cambridge</h2>
+                                        <p className="text-xs text-slate-500">Bấm vào loa để nghe phát âm chuẩn US / UK và đánh dấu từ đã thuộc.</p>
+                                    </div>
+                                    <span className="text-xs font-bold bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-xl">
+                                        Đã thuộc: {learnedVocab.length}/{VOCAB_DATA.length}
+                                    </span>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {VOCAB_DATA.map(v => {
+                                        const isLearned = learnedVocab.includes(v.id);
+                                        return (
+                                            <div key={v.id} className={`bg-white p-5 rounded-2xl border transition shadow-sm ${isLearned ? 'border-emerald-300 bg-emerald-50/20' : 'border-slate-200'}`}>
+                                                <div className="flex items-start justify-between gap-2">
+                                                    <div>
+                                                        <div className="flex items-center gap-2">
+                                                            <h3 className="text-lg font-extrabold text-slate-900">{v.word}</h3>
+                                                            <span className="text-xs font-mono text-slate-500">{v.ipa}</span>
+                                                            <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">{v.type}</span>
+                                                        </div>
+                                                        <p className="text-sm font-semibold text-indigo-700 mt-1">{v.meaning}</p>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => {
+                                                            setLearnedVocab(prev =>
+                                                                prev.includes(v.id) ? prev.filter(x => x !== v.id) : [...prev, v.id]
+                                                            );
+                                                        }}
+                                                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition ${
+                                                            isLearned ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                                        }`}
+                                                    >
+                                                        {isLearned ? 'Đã thuộc ✓' : 'Đánh dấu thuộc'}
+                                                    </button>
+                                                </div>
+                                                <p className="text-xs text-slate-600 italic mt-3 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+                                                    "{v.example}"
+                                                </p>
+                                                <div className="mt-3 flex items-center gap-2">
+                                                    <button
+                                                        onClick={() => speakWord(v.word, 'en-US')}
+                                                        className="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold flex items-center gap-1"
+                                                    >
+                                                        <Icon name="volume-2" className="w-3.5 h-3.5" /> US
+                                                    </button>
+                                                    <button
+                                                        onClick={() => speakWord(v.word, 'en-GB')}
+                                                        className="px-3 py-1.5 rounded-lg bg-violet-50 hover:bg-violet-100 text-violet-700 text-xs font-bold flex items-center gap-1"
+                                                    >
+                                                        <Icon name="volume-2" className="w-3.5 h-3.5" /> UK
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 4: NGỮ PHÁP & DÀN Ý WRITING / SPEAKING */}
+                        {activeTab === 'grammar' && (
+                            <div className="space-y-4">
+                                <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+                                    <h2 className="text-lg font-extrabold text-slate-900">Ngữ Pháp Trọng Tâm & Dàn Ý Chuẩn Band 7.5+</h2>
+                                    <p className="text-xs text-slate-500">Tổng hợp cấu trúc ăn điểm trong IELTS Writing và Speaking.</p>
+                                </div>
+                                <div className="space-y-4">
+                                    {GRAMMAR_GUIDES.map((g, idx) => (
+                                        <div key={idx} className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-2.5">
+                                            <h3 className="font-extrabold text-base text-indigo-700">{g.title}</h3>
+                                            <div className="p-3 rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs overflow-x-auto">
+                                                {g.formula}
+                                            </div>
+                                            <p className="text-sm text-slate-800">
+                                                <strong>Ví dụ:</strong> <span className="italic">{g.example}</span>
+                                            </p>
+                                            <p className="text-xs text-slate-600 bg-amber-50 border border-amber-200 p-2.5 rounded-xl">
+                                                💡 <strong>Mẹo giám khảo:</strong> {g.tip}
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* TAB 5: GIA SƯ AI GEMINI CHẤM WRITING & SPEAKING */}
+                        {activeTab === 'ai' && (
+                            <div className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-6 shadow-sm space-y-5">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                                    <div>
+                                        <h2 className="text-lg font-extrabold text-slate-900 flex items-center gap-2">
+                                            <Icon name="bot" className="w-6 h-6 text-indigo-600" />
+                                            <span>Gia Sư AI Chấm Chữa Writing & Speaking</span>
+                                        </h2>
+                                        <p className="text-xs text-slate-500 mt-0.5">
+                                            Nhận điểm Band ước tính, sửa lỗi ngữ pháp và gợi ý nâng cấp từ vựng học thuật.
+                                        </p>
+                                    </div>
+                                    <input
+                                        type="password"
+                                        value={geminiApiKey}
+                                        onChange={(e) => {
+                                            setGeminiApiKey(e.target.value);
+                                            localStorage.setItem('binhielts_api_key', e.target.value);
+                                        }}
+                                        placeholder="Nhập Gemini API Key (Tùy chọn)..."
+                                        className="px-3 py-2 rounded-xl border border-slate-200 text-xs w-full sm:w-64 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    {['Writing Task 1', 'Writing Task 2', 'Speaking Part 2 & 3'].map(sk => (
+                                        <button
+                                            key={sk}
+                                            onClick={() => setAiSkill(sk)}
+                                            className={`py-2.5 px-4 rounded-xl text-xs font-bold border transition ${
+                                                aiSkill === sk
+                                                    ? 'bg-indigo-600 text-white border-indigo-600'
+                                                    : 'bg-slate-50 text-slate-700 border-slate-200'
+                                            }`}
+                                        >
+                                            {sk}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                <div className="space-y-3">
+                                    <div>
+                                        <label className="text-xs font-bold text-slate-700 block mb-1">Đề bài (Prompt):</label>
+                                        <textarea
+                                            rows="2"
+                                            value={aiPromptText}
+                                            onChange={(e) => setAiPromptText(e.target.value)}
+                                            className="w-full p-3 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="text-xs font-bold text-slate-700 block mb-1">Bài làm của bạn:</label>
+                                        <textarea
+                                            rows="6"
+                                            value={aiUserResponse}
+                                            onChange={(e) => setAiUserResponse(e.target.value)}
+                                            placeholder="Nhập bài viết hoặc nội dung câu trả lời Speaking của bạn tại đây..."
+                                            className="w-full p-3.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                        />
+                                    </div>
+                                    <button
+                                        onClick={handleAiGrade}
+                                        disabled={isGrading}
+                                        className="bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-bold text-sm px-6 py-3 rounded-xl shadow-sm transition flex items-center gap-2"
+                                    >
+                                        <Icon name="sparkles" className="w-4 h-4" />
+                                        <span>{isGrading ? 'AI đang chấm bài...' : 'Chấm điểm & Sửa bài chi tiết'}</span>
+                                    </button>
+                                </div>
+
+                                {aiFeedback && (
+                                    <div className="p-5 rounded-2xl bg-indigo-50/70 border border-indigo-200 space-y-3">
+                                        {aiFeedback.isRealApi ? (
+                                            <div className="whitespace-pre-wrap text-sm text-slate-800 leading-relaxed">
+                                                {aiFeedback.content}
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className="flex items-center justify-between">
+                                                    <span className="font-extrabold text-indigo-900">Kết quả đánh giá chi tiết</span>
+                                                    <span className="bg-indigo-600 text-white font-extrabold px-3 py-1 rounded-xl text-sm">
+                                                        Estimated Band: {aiFeedback.band}
+                                                    </span>
+                                                </div>
+                                                <p className="text-xs sm:text-sm text-slate-700">
+                                                    <strong>Điểm mạnh:</strong> {aiFeedback.strengths}
+                                                </p>
+                                                <p className="text-xs sm:text-sm text-slate-700">
+                                                    <strong>Cần cải thiện:</strong> {aiFeedback.improvements}
+                                                </p>
+                                                <div className="p-3.5 rounded-xl bg-white border border-indigo-100 text-xs sm:text-sm text-slate-800">
+                                                    <strong className="text-indigo-700 block mb-1">Gợi ý viết lại chuẩn Band 8.5:</strong>
+                                                    "{aiFeedback.sampleUpgrade}"
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        )}
+                    </main>
+
+                    {/* Mobile Bottom Navigation Bar */}
+                    <nav className="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-slate-200 px-2 py-1.5 grid grid-cols-5 gap-1 shadow-lg">
+                        {[
+                            { id: 'dashboard', label: 'Lộ trình', icon: 'layout-dashboard' },
+                            { id: 'practice', label: 'Luyện đề', icon: 'file-text' },
+                            { id: 'vocab', label: 'Từ vựng', icon: 'book-a' },
+                            { id: 'grammar', label: 'Ngữ pháp', icon: 'layers' },
+                            { id: 'ai', label: 'Gia sư AI', icon: 'bot' }
+                        ].map(tab => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`py-1.5 rounded-xl flex flex-col items-center justify-center gap-0.5 text-[10px] font-bold transition ${
+                                    activeTab === tab.id ? 'text-indigo-600 bg-indigo-50' : 'text-slate-500'
+                                }`}
+                            >
+                                <Icon name={tab.icon} className="w-4 h-4" />
+                                <span>{tab.label}</span>
+                            </button>
+                        ))}
+                    </nav>
+
+                    {/* Placement Test Modal */}
+                    {showPlacementModal && (
+                        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+                            <div className="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto space-y-4">
+                                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                                    <h3 className="font-extrabold text-lg text-slate-900">Kiểm tra đầu vào nhanh</h3>
+                                    <button onClick={() => setShowPlacementModal(false)} className="text-slate-400 hover:text-slate-700">
+                                        <Icon name="x" className="w-5 h-5" />
+                                    </button>
+                                </div>
+                                <div className="space-y-4">
+                                    {PLACEMENT_QUESTIONS.map((item, idx) => (
+                                        <div key={idx} className="space-y-2">
+                                            <p className="text-xs sm:text-sm font-bold text-slate-800">{idx + 1}. {item.q}</p>
+                                            <div className="grid grid-cols-1 gap-1.5">
+                                                {item.options.map((opt, oIdx) => (
+                                                    <button
+                                                        key={oIdx}
+                                                        onClick={() => setPlacementAnswers(prev => ({ ...prev, [idx]: oIdx }))}
+                                                        className={`text-left px-3 py-2 rounded-xl text-xs border transition ${
+                                                            placementAnswers[idx] === oIdx
+                                                                ? 'bg-indigo-600 text-white border-indigo-600 font-bold'
+                                                                : 'bg-slate-50 text-slate-700 border-slate-200'
+                                                        }`}
+                                                    >
+                                                        {opt}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                                <button
+                                    onClick={() => {
+                                        let score = 0;
+                                        PLACEMENT_QUESTIONS.forEach((q, i) => {
+                                            if (placementAnswers[i] === q.ans) score++;
+                                        });
+                                        const newLvl = score >= 4 ? 'Band 7.0+ (Mục tiêu 8.0+)' : score >= 2 ? 'Band 6.0 (Mục tiêu 7.5)' : 'Band 5.0 (Mục tiêu 6.5)';
+                                        setUserLevel(newLvl);
+                                        localStorage.setItem('binhielts_level', newLvl);
+                                        setShowPlacementModal(false);
+                                        showToast(`Đã cập nhật trình độ: ${newLvl}`);
+                                    }}
+                                    className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm py-3 rounded-xl transition"
+                                >
+                                    Hoàn thành & Cập nhật lộ trình
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
