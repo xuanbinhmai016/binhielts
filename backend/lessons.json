@@ -1,0 +1,558 @@
+[
+  {
+    "skill": "Listening",
+    "title": "A community photography course",
+    "instructions": "Listen to the dialogue and answer three questions. This short exercise is not a full IELTS test.",
+    "content": "Receptionist: Hello, Riverside Learning Centre. How can I help? Student: I'd like to join the photography course. Receptionist: The next course begins on Tuesday the fourteenth of May. Classes run from six to eight in the evening. Student: How much does it cost? Receptionist: Eighty-five pounds for six weeks. Please bring your own camera. Student: Where do we meet? Receptionist: In room twelve, on the first floor.",
+    "questions": [
+      {
+        "prompt": "Which month does the course begin?",
+        "answer": "May",
+        "explanation": "The receptionist says the fourteenth of May."
+      },
+      {
+        "prompt": "How much does the six-week course cost in pounds?",
+        "answer": "85",
+        "explanation": "The full course costs eighty-five pounds."
+      },
+      {
+        "prompt": "What room number is used?",
+        "answer": "12",
+        "explanation": "The class meets in room twelve."
+      }
+    ],
+    "id": "starter-listening",
+    "mode": "practice",
+    "minutes": 5,
+    "question_type": "short answer"
+  },
+  {
+    "skill": "Reading",
+    "title": "The value of urban trees",
+    "instructions": "Read the passage and answer TRUE, FALSE or NOT GIVEN using only the passage.",
+    "content": "Urban trees offer more than an attractive view. Their leaves provide shade, which can reduce the temperature of pavements during hot weather. Trees also intercept some rainfall before it reaches the ground. However, planting a tree is only the beginning: young trees need regular care, especially during dry periods. One neighbourhood project asked volunteers to water newly planted trees each week throughout their first summer. The organisers reported that residents enjoyed working together, but they did not measure changes in local air quality. The project used several tree species rather than relying on a single variety. This approach was intended to reduce the risk that one disease would affect every tree.",
+    "questions": [
+      {
+        "prompt": "Shade from trees can make pavements cooler in hot weather.",
+        "answer": "TRUE",
+        "explanation": "The passage explicitly says shade can reduce pavement temperatures."
+      },
+      {
+        "prompt": "The project planted only one variety of tree.",
+        "answer": "FALSE",
+        "explanation": "The project used several tree species."
+      },
+      {
+        "prompt": "The project improved local air quality by twenty percent.",
+        "answer": "NOT GIVEN",
+        "explanation": "Air-quality changes were not measured and no percentage is supplied."
+      }
+    ],
+    "id": "starter-reading",
+    "mode": "practice",
+    "minutes": 5,
+    "question_type": "TRUE/FALSE/NOT GIVEN"
+  },
+  {
+    "skill": "Writing",
+    "title": "Academic Task 2: transport priorities",
+    "instructions": "Allow 40 minutes and aim for at least 250 words. Self-review is not an official band assessment.",
+    "content": "Some people believe governments should spend more money on public transport than on building new roads. To what extent do you agree or disagree? Give reasons for your answer and include relevant examples from your own knowledge or experience.",
+    "questions": [],
+    "id": "starter-writing",
+    "mode": "practice",
+    "minutes": 40,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Speaking",
+    "title": "Part 2: a useful skill",
+    "instructions": "Prepare for one minute, then speak for one to two minutes. Use the recording feature in the downloaded site to review your response.",
+    "content": "Describe a useful skill you learned. You should say: what the skill is; when and how you learned it; why you decided to learn it; and explain how it has helped you. Follow-up questions: Why is lifelong learning important? Should schools focus more on practical skills? How has technology changed the way people learn?",
+    "questions": [],
+    "id": "starter-speaking",
+    "mode": "practice",
+    "minutes": 5,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Listening",
+    "title": "Joining a local library",
+    "instructions": "Listen without opening the transcript. Write no more than two words and/or a number for each answer. Original short practice, not a full IELTS examination.",
+    "content": "Librarian: Welcome to Brookside Library. Membership is free for local residents. Visitor: What should I bring? Librarian: A photo identification card and a recent bill showing your address. You can borrow eight books at a time. Visitor: How long can I keep them? Librarian: For three weeks. We close at seven on weekdays, but at four on Saturdays. Our conversation club meets every Thursday in the garden room. Visitor: Is there a fee? Librarian: No, the club is free too.",
+    "questions": [
+      {
+        "prompt": "How many books can a member borrow?",
+        "answer": "8",
+        "explanation": "The librarian allows eight books at a time."
+      },
+      {
+        "prompt": "For how many weeks can books be borrowed?",
+        "answer": "3",
+        "explanation": "The borrowing period is three weeks."
+      },
+      {
+        "prompt": "At what hour does the library close on Saturdays?",
+        "answer": "4",
+        "explanation": "Saturday closing is at four."
+      },
+      {
+        "prompt": "On which day does the conversation club meet?",
+        "answer": "Thursday",
+        "explanation": "The club meets every Thursday."
+      },
+      {
+        "prompt": "What room does the club use?",
+        "answer": "garden room",
+        "explanation": "The meeting place is the garden room."
+      }
+    ],
+    "id": "listen-library",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "short answer"
+  },
+  {
+    "skill": "Listening",
+    "title": "A coastal field trip",
+    "instructions": "Listen without opening the transcript. Write no more than two words and/or a number for each answer. Original short practice, not a full IELTS examination.",
+    "content": "Guide: Our coach leaves the college at nine tomorrow morning. Please arrive fifteen minutes early. We will visit the coastal research station, not the museum as originally planned. The journey takes forty minutes. You should bring a notebook and a waterproof jacket. Lunch is provided, but bring your own water. At the station, a scientist will explain how sensors measure waves. We will return to college at half past three. Please meet outside the main entrance, rather than at the sports hall.",
+    "questions": [
+      {
+        "prompt": "At what hour does the coach leave?",
+        "answer": "9",
+        "explanation": "The coach leaves at nine."
+      },
+      {
+        "prompt": "How many minutes does the journey take?",
+        "answer": "40",
+        "explanation": "The journey takes forty minutes."
+      },
+      {
+        "prompt": "What type of jacket should students bring?",
+        "answer": "waterproof",
+        "explanation": "A waterproof jacket is requested."
+      },
+      {
+        "prompt": "What do sensors measure?",
+        "answer": "waves",
+        "explanation": "Sensors measure waves."
+      },
+      {
+        "prompt": "Where should students meet?",
+        "answer": "main entrance",
+        "explanation": "The guide specifies the main entrance."
+      }
+    ],
+    "id": "listen-trip",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "short answer"
+  },
+  {
+    "skill": "Listening",
+    "title": "A repair workshop",
+    "instructions": "Listen without opening the transcript. Write no more than two words and/or a number for each answer. Original short practice, not a full IELTS examination.",
+    "content": "Organiser: Our repair workshop is on Sunday the tenth of November at the community hall. Doors open at ten, and repairs begin at ten thirty. We can help with small electrical appliances, bicycles and clothing. We cannot repair phones. Volunteer: Do visitors need to book? Organiser: Yes. Each visitor should book one item. The suggested donation is five pounds, but payment is optional. Please use the side entrance because the front door is being painted. We finish at two in the afternoon.",
+    "questions": [
+      {
+        "prompt": "In which month is the workshop?",
+        "answer": "November",
+        "explanation": "The date is the tenth of November."
+      },
+      {
+        "prompt": "Which items cannot be repaired?",
+        "answer": "phones",
+        "explanation": "Phones are excluded."
+      },
+      {
+        "prompt": "How many items should each visitor book?",
+        "answer": "1",
+        "explanation": "Each visitor should book one item."
+      },
+      {
+        "prompt": "What is the suggested donation in pounds?",
+        "answer": "5",
+        "explanation": "The suggested donation is five pounds."
+      },
+      {
+        "prompt": "Which entrance should visitors use?",
+        "answer": "side entrance",
+        "explanation": "The front door is being painted."
+      }
+    ],
+    "id": "listen-repair",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "short answer"
+  },
+  {
+    "skill": "Listening",
+    "title": "Discussing a student survey",
+    "instructions": "Listen without opening the transcript. Write no more than two words and/or a number for each answer. Original short practice, not a full IELTS examination.",
+    "content": "Tutor: Tell me about your transport survey. Student: We invited two hundred students, but only eighty responded. Most responses came from first-year students, so the sample may not represent the whole college. Tutor: What did you ask? Student: How they travel to campus and what prevents them from cycling. Cost was not the main problem; safety was mentioned most often. Tutor: What will you do next? Student: Interview ten cyclists next week. Then we will compare the interviews with the questionnaire results. Our report is due on Friday, and it should include a chart.",
+    "questions": [
+      {
+        "prompt": "How many students responded?",
+        "answer": "80",
+        "explanation": "Eighty of the invited students responded."
+      },
+      {
+        "prompt": "Which year supplied most responses?",
+        "answer": "first year",
+        "explanation": "Most respondents were first-year students."
+      },
+      {
+        "prompt": "What concern was mentioned most often?",
+        "answer": "safety",
+        "explanation": "Safety was the leading concern."
+      },
+      {
+        "prompt": "How many cyclists will be interviewed?",
+        "answer": "10",
+        "explanation": "The student plans ten interviews."
+      },
+      {
+        "prompt": "On what day is the report due?",
+        "answer": "Friday",
+        "explanation": "The report is due on Friday."
+      }
+    ],
+    "id": "listen-research",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "short answer"
+  },
+  {
+    "skill": "Reading",
+    "title": "A reusable cup trial",
+    "instructions": "Use only the passage. Answer TRUE, FALSE or NOT GIVEN. Original short practice, not a full IELTS examination.",
+    "content": "A small cafe tested a reusable cup scheme for six weeks. Customers paid a refundable deposit when borrowing a cup. They could return it to either of the cafe's two branches. Staff washed returned cups before using them again. During the trial, the cafe used fewer disposable cups than in the previous six weeks. However, the manager did not calculate the environmental impact of washing and transport. Some customers said they forgot to bring cups back, so the cafe added reminder signs near the doors. The deposit amount stayed the same throughout the trial.",
+    "questions": [
+      {
+        "prompt": "The trial lasted six weeks.",
+        "answer": "TRUE",
+        "explanation": "Six weeks is stated."
+      },
+      {
+        "prompt": "Cups could only be returned to one branch.",
+        "answer": "FALSE",
+        "explanation": "Either of two branches accepted returns."
+      },
+      {
+        "prompt": "Staff washed cups before reusing them.",
+        "answer": "TRUE",
+        "explanation": "Returned cups were washed."
+      },
+      {
+        "prompt": "The scheme reduced total carbon emissions by half.",
+        "answer": "NOT GIVEN",
+        "explanation": "Environmental impact was not calculated."
+      },
+      {
+        "prompt": "The cafe increased its deposit during the trial.",
+        "answer": "FALSE",
+        "explanation": "The deposit stayed the same."
+      }
+    ],
+    "id": "read-cafe",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "TRUE/FALSE/NOT GIVEN"
+  },
+  {
+    "skill": "Reading",
+    "title": "Flexible working hours",
+    "instructions": "Use only the passage. Answer TRUE, FALSE or NOT GIVEN. Original short practice, not a full IELTS examination.",
+    "content": "A design company introduced flexible starting times for a three-month trial. Employees could begin work between seven and ten, but everyone had to be available for meetings from eleven until three. The total weekly hours did not change. At the end of the trial, an anonymous survey found that many employees valued the easier commute. Managers reported that projects were still delivered on schedule. The survey did not ask about sleep, and the company did not compare productivity with other businesses. The flexible system was retained, although a small customer-support team continued using fixed shifts.",
+    "questions": [
+      {
+        "prompt": "Employees could start work at eight.",
+        "answer": "TRUE",
+        "explanation": "Eight falls within the seven-to-ten starting window."
+      },
+      {
+        "prompt": "Weekly working hours were reduced.",
+        "answer": "FALSE",
+        "explanation": "Weekly hours did not change."
+      },
+      {
+        "prompt": "Employees reported sleeping longer.",
+        "answer": "NOT GIVEN",
+        "explanation": "The survey did not ask about sleep."
+      },
+      {
+        "prompt": "Managers said projects arrived on schedule.",
+        "answer": "TRUE",
+        "explanation": "Projects were delivered on schedule."
+      },
+      {
+        "prompt": "Every employee moved to flexible starting times.",
+        "answer": "FALSE",
+        "explanation": "Customer support kept fixed shifts."
+      }
+    ],
+    "id": "read-work",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "TRUE/FALSE/NOT GIVEN"
+  },
+  {
+    "skill": "Reading",
+    "title": "A neighbourhood seed library",
+    "instructions": "Use only the passage. Answer TRUE, FALSE or NOT GIVEN. Original short practice, not a full IELTS examination.",
+    "content": "A seed library lets residents borrow packets of seeds rather than books. At the end of the growing season, borrowers are encouraged, but not required, to return seeds collected from their plants. The project began with donations from local gardeners. Volunteers label packets with the plant name and the collection year. They also run introductory gardening sessions once a month. The organisers warn that seeds from some hybrid plants may not produce plants identical to their parents. They do not promise that every seed will germinate. A secure cabinet inside the public library keeps the packets dry.",
+    "questions": [
+      {
+        "prompt": "Borrowers must return seeds.",
+        "answer": "FALSE",
+        "explanation": "Returns are encouraged, not required."
+      },
+      {
+        "prompt": "Local gardeners supplied the initial seeds.",
+        "answer": "TRUE",
+        "explanation": "The project began with gardener donations."
+      },
+      {
+        "prompt": "Packet labels include the collection year.",
+        "answer": "TRUE",
+        "explanation": "Both plant name and collection year are listed."
+      },
+      {
+        "prompt": "Hybrid plants always produce identical offspring.",
+        "answer": "FALSE",
+        "explanation": "The organisers warn that they may not."
+      },
+      {
+        "prompt": "The project has more than five hundred borrowers.",
+        "answer": "NOT GIVEN",
+        "explanation": "No borrower count is given."
+      }
+    ],
+    "id": "read-seeds",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "TRUE/FALSE/NOT GIVEN"
+  },
+  {
+    "skill": "Reading",
+    "title": "Citizen science and river monitoring",
+    "instructions": "Use only the passage. Answer TRUE, FALSE or NOT GIVEN. Original short practice, not a full IELTS examination.",
+    "content": "A river-monitoring project trains volunteers to measure water clarity. Before collecting data, every volunteer attends a practical session and compares readings with an experienced researcher. Measurements are taken at fixed locations, allowing changes over time to be compared. Heavy rain can affect clarity, so volunteers record recent weather as well. The researchers review unusual results rather than deleting them automatically. They note that cloudy water alone cannot identify a particular pollutant. Laboratory testing is needed for that purpose. The project publishes monthly summaries, but the passage does not indicate whether the river has become cleaner.",
+    "questions": [
+      {
+        "prompt": "Training takes place before data collection.",
+        "answer": "TRUE",
+        "explanation": "Every volunteer attends training first."
+      },
+      {
+        "prompt": "Volunteers choose new locations every month.",
+        "answer": "FALSE",
+        "explanation": "Measurements use fixed locations."
+      },
+      {
+        "prompt": "Recent weather is recorded.",
+        "answer": "TRUE",
+        "explanation": "Weather is recorded because rain affects clarity."
+      },
+      {
+        "prompt": "Cloudy water identifies a specific pollutant.",
+        "answer": "FALSE",
+        "explanation": "Laboratory testing is required."
+      },
+      {
+        "prompt": "The river is now cleaner than last year.",
+        "answer": "NOT GIVEN",
+        "explanation": "No improvement over time is reported."
+      }
+    ],
+    "id": "read-science",
+    "mode": "practice",
+    "minutes": 8,
+    "question_type": "TRUE/FALSE/NOT GIVEN"
+  },
+  {
+    "skill": "Writing",
+    "title": "Task 2: practical education",
+    "instructions": "Write a clear response. Use the self-review checklist; no official band score is provided. Original short practice, not a full IELTS examination.",
+    "content": "Some people think schools should teach more practical life skills, while others believe academic subjects should remain the priority. Discuss both views and give your own opinion. Write at least 250 words.",
+    "questions": [],
+    "id": "write-education",
+    "mode": "practice",
+    "minutes": 40,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Writing",
+    "title": "Task 2: working from home",
+    "instructions": "Write a clear response. Use the self-review checklist; no official band score is provided. Original short practice, not a full IELTS examination.",
+    "content": "Working from home has become more common. Do the advantages of this development outweigh the disadvantages? Write at least 250 words and support your ideas with examples.",
+    "questions": [],
+    "id": "write-remote",
+    "mode": "practice",
+    "minutes": 40,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Writing",
+    "title": "Academic Task 1: library visits",
+    "instructions": "Write a clear response. Use the self-review checklist; no official band score is provided. Original short practice, not a full IELTS examination.",
+    "content": "Summarise the information, selecting and reporting the main features and making comparisons where relevant. Library visits (thousands): 2022 — Central 42, East 18, West 25; 2023 — Central 48, East 23, West 24; 2024 — Central 51, East 31, West 27. Write at least 150 words. These figures are fictional practice data.",
+    "questions": [],
+    "id": "write-chart",
+    "mode": "practice",
+    "minutes": 20,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Writing",
+    "title": "General Training Task 1: evening class",
+    "instructions": "Write a clear response. Use the self-review checklist; no official band score is provided. Original short practice, not a full IELTS examination.",
+    "content": "You attended an evening class but can no longer continue. Write a letter to the course organiser. Explain why you cannot continue, say what you enjoyed about the class, and ask about joining a future course. Write at least 150 words.",
+    "questions": [],
+    "id": "write-letter",
+    "mode": "practice",
+    "minutes": 20,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Speaking",
+    "title": "Part 2: a peaceful place",
+    "instructions": "Prepare for one minute, then speak for one to two minutes. Use the follow-up questions to extend your answer. Original short practice, not a full IELTS examination.",
+    "content": "Describe a place where you like to relax. Say where it is, how often you go, what you do there, and why it helps you relax. Follow-up: Why do cities need quiet public spaces? Can relaxation be taught?",
+    "questions": [],
+    "id": "speak-place",
+    "mode": "practice",
+    "minutes": 3,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Speaking",
+    "title": "Part 2: something you read",
+    "instructions": "Prepare for one minute, then speak for one to two minutes. Use the follow-up questions to extend your answer. Original short practice, not a full IELTS examination.",
+    "content": "Describe a book or article that interested you. Say what it was about, when you read it, how you found it, and why it was interesting. Follow-up: How do people choose what to read? Is digital reading different from reading on paper?",
+    "questions": [],
+    "id": "speak-book",
+    "mode": "practice",
+    "minutes": 3,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Speaking",
+    "title": "Part 2: helping someone",
+    "instructions": "Prepare for one minute, then speak for one to two minutes. Use the follow-up questions to extend your answer. Original short practice, not a full IELTS examination.",
+    "content": "Describe a time you helped another person. Say who it was, what help was needed, what you did, and how you felt afterwards. Follow-up: Why do people volunteer? Should young people do community service?",
+    "questions": [],
+    "id": "speak-help",
+    "mode": "practice",
+    "minutes": 3,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Speaking",
+    "title": "Part 2: a positive change",
+    "instructions": "Prepare for one minute, then speak for one to two minutes. Use the follow-up questions to extend your answer. Original short practice, not a full IELTS examination.",
+    "content": "Describe a positive change in your daily routine. Say what changed, why you made the change, whether it was difficult, and how it improved your life. Follow-up: Why are habits difficult to change? How can communities encourage healthy routines?",
+    "questions": [],
+    "id": "speak-change",
+    "mode": "practice",
+    "minutes": 3,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Listening",
+    "title": "Starting point: booking a study room",
+    "instructions": "Listen without opening the transcript. Write no more than two words and/or a number for each answer. Original short practice, not a full IELTS examination.",
+    "content": "Assistant: The study room is available on Monday and Wednesday. Learner: Wednesday is better for me. Assistant: Your booking starts at two in the afternoon and lasts one hour. The room number is six. Please bring your student card. The booking is free, but you must return the key at the desk when you leave.",
+    "questions": [
+      {
+        "prompt": "Which day does the learner choose?",
+        "answer": "Wednesday",
+        "explanation": "The learner chooses Wednesday."
+      },
+      {
+        "prompt": "At what hour does the booking start?",
+        "answer": "2",
+        "explanation": "It starts at two in the afternoon."
+      },
+      {
+        "prompt": "How many hours does it last?",
+        "answer": "1",
+        "explanation": "It lasts one hour."
+      },
+      {
+        "prompt": "What is the room number?",
+        "answer": "6",
+        "explanation": "The room number is six."
+      },
+      {
+        "prompt": "What must the learner bring?",
+        "answer": "student card",
+        "explanation": "A student card is requested."
+      }
+    ],
+    "id": "diagnostic-listening",
+    "mode": "diagnostic",
+    "minutes": 4,
+    "question_type": "short answer"
+  },
+  {
+    "skill": "Reading",
+    "title": "Starting point: a walking group",
+    "instructions": "Use only the passage. Answer TRUE, FALSE or NOT GIVEN. Original short practice, not a full IELTS examination.",
+    "content": "A neighbourhood walking group meets every Saturday morning at the railway station. The walks last about an hour and are open to adults of all fitness levels. No payment is required. A volunteer chooses the route each week, avoiding busy roads where possible. If heavy rain is forecast, the organiser sends a cancellation message on Friday evening. Participants are advised to wear comfortable shoes and bring water. The group has not collected information about changes in participants' health.",
+    "questions": [
+      {
+        "prompt": "The group meets on Saturdays.",
+        "answer": "TRUE",
+        "explanation": "Saturday morning is stated."
+      },
+      {
+        "prompt": "Participants must pay for each walk.",
+        "answer": "FALSE",
+        "explanation": "No payment is required."
+      },
+      {
+        "prompt": "The same route is used every week.",
+        "answer": "NOT GIVEN",
+        "explanation": "A route is chosen each week but repetition is not specified."
+      },
+      {
+        "prompt": "The group may cancel because of heavy rain.",
+        "answer": "TRUE",
+        "explanation": "A cancellation is sent when heavy rain is forecast."
+      },
+      {
+        "prompt": "The walks have improved participants' health.",
+        "answer": "NOT GIVEN",
+        "explanation": "Health changes have not been recorded."
+      }
+    ],
+    "id": "diagnostic-reading",
+    "mode": "diagnostic",
+    "minutes": 5,
+    "question_type": "TRUE/FALSE/NOT GIVEN"
+  },
+  {
+    "skill": "Writing",
+    "title": "Starting point: your learning routine",
+    "instructions": "Write a clear response. Use the self-review checklist; no official band score is provided. Original short practice, not a full IELTS examination.",
+    "content": "Write 80–120 words about why you are learning English, what you find easiest, and what you want to improve. This short sample supports reflection only; it is not an IELTS writing task.",
+    "questions": [],
+    "id": "diagnostic-writing",
+    "mode": "diagnostic",
+    "minutes": 8,
+    "question_type": "open response"
+  },
+  {
+    "skill": "Speaking",
+    "title": "Starting point: introduce yourself",
+    "instructions": "Prepare for one minute, then speak for one to two minutes. Use the follow-up questions to extend your answer. Original short practice, not a full IELTS examination.",
+    "content": "Speak for 45–60 seconds. Describe a hobby, how often you do it, and why you enjoy it. Listen back and reflect on clarity, pauses and vocabulary. This is not an official level assessment.",
+    "questions": [],
+    "id": "diagnostic-speaking",
+    "mode": "diagnostic",
+    "minutes": 1,
+    "question_type": "open response"
+  }
+]
