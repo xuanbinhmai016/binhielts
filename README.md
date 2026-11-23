@@ -90,3 +90,10 @@ The workspace cannot create dot-prefixed paths, so the separately downloadable s
 - github/ → .github/ (keep workflows/pages.yml inside it)
 
 The ZIP already contains the correct dot-prefixed names. These renames apply **only to separate downloads**. Do not add a private backend/.env or provider key to Git.
+
+## Python source-code extension
+The repository now contains 26 files, including **five actual Python source/test files**, not additional interface pages. `ielts_tools/library.py`, `scoring.py`, `planning.py` and `cli.py` provide validation, original-exercise grading, study scheduling and terminal commands; `tests/test_tools.py` includes 17 passing tests. Read **PYTHON-TOOLS.md**. Run `python -m ielts_tools.cli validate` and `python -m unittest discover -s tests -v` from the project root. Python 3.9+ only; no pip packages required. These offline tools do not replace or connect to the existing JavaScript website/Express backend and do not run on GitHub Pages. Earlier file counts above refer to the previous release. The latest canvas-only interface refresh is not part of this deployable ZIP.
+
+
+## Non-UI Python and Java extension
+See CODE-TOOLS.md for backup analytics, text diagnostics, Java calculations, tests and commit steps. The v3 dashboard/FastAPI upgrade remains separate and unfinished.

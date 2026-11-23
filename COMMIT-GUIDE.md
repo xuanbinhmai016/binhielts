@@ -121,3 +121,18 @@ Open a pull request and merge when ready. Do not manufacture commits merely to m
 
 ## Secrets
 Upload backend/.env.example, **not** backend/.env. The real OPENAI_API_KEY belongs only in backend environment settings. assets/config.js contains a public backend URL, never a provider key. Review what Git will publish before pushing. Browser backup and recording files are personal data, not source code.
+
+## Python extension: three meaningful additional commits
+For the extended 26-file repository, the original ten groups above do not yet include the new Python files. After those groups, or in your existing clone, run:
+```sh
+python -B -m unittest discover -s tests -v
+git add ielts_tools/library.py ielts_tools/scoring.py
+git commit -m "feat(python): add lesson validation and objective exercise scoring"
+git add ielts_tools/planning.py ielts_tools/cli.py
+git commit -m "feat(python): add four-skill planner and terminal commands"
+git add tests/test_tools.py PYTHON-TOOLS.md README.md COMMIT-GUIDE.md
+git commit -m "test(python): add exercise tools tests and usage documentation"
+git status
+git push
+```
+Run from the extracted project root. These commands only create commits when you execute them. If README.md and COMMIT-GUIDE.md were already staged in the initial ten groups, the final group still commits the new tests and Python guide. Do not stage __pycache__, *.pyc or personal command output. The CLI is local tooling, not a Python backend running on GitHub Pages.
