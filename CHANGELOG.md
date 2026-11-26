@@ -32,3 +32,15 @@
 - Initial four-skill mini practice site.
 - Browser-based audio, local writing drafts, speaking recording and JSON backups.
 - GitHub Pages deployment and manual verification guide.
+
+
+## Unreleased
+- Added missing `.github/workflows/pages.yml`, `.gitignore`, `backend/.env.example`, `backend/.dockerignore`.
+- Removed duplicated `assets/content.js`; the site now fetches `backend/lessons.json` (single source of truth).
+- Split `assets/app.js` into ES modules under `assets/js/`.
+- Added split-screen layout (source left, work right) for Reading and Writing on wide screens.
+- README: Python/Java tools documented as standalone offline CLI tools.
+- Added 4 original vocabulary gap-fill activities (environment, education/work, technology, health) under Reading; library now 28 activities / 76 questions.
+- Added Practice test mode: choose a set, do one part or the full four-part test, with timers and a results screen.
+- Added accounts: backend `auth.js` (register/login/logout/delete, scrypt, bearer tokens, rate limits) and a login panel with automatic progress sync and merge.
+- Practice test now lists weeks with green completion ticks (Zenlab-style).

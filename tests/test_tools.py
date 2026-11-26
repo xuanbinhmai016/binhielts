@@ -24,9 +24,9 @@ class ContentTests(unittest.TestCase):
 
     def test_release_coverage(self):
         summary = summarize_library(self.lessons)
-        self.assertEqual(summary["activities"], 24)
-        self.assertEqual(summary["modes"], {"practice": 20, "diagnostic": 4})
-        self.assertEqual(summary["objective_questions"], 56)
+        self.assertEqual(summary["activities"], 28)
+        self.assertEqual(summary["modes"], {"practice": 24, "diagnostic": 4})
+        self.assertEqual(summary["objective_questions"], 76)
 
     def test_reject_non_array(self):
         self.assertTrue(validate_lessons({}))
@@ -92,7 +92,7 @@ class ContentTests(unittest.TestCase):
         output = io.StringIO()
         with contextlib.redirect_stdout(output):
             self.assertEqual(main(["summary"]), 0)
-        self.assertEqual(json.loads(output.getvalue())["activities"], 24)
+        self.assertEqual(json.loads(output.getvalue())["activities"], 28)
 
     def test_cli_failure_exit_code(self):
         output = io.StringIO()

@@ -3,7 +3,7 @@
 No browser, Node runtime or live OpenAI connection was available during generation. Local/package checks do not establish production readiness. Run these checks before sharing with learners.
 
 ## Syntax and setup
-- Node 20+: `node --check assets/app.js`, `node --check assets/content.js`, `node --check assets/config.js`, and `node --check backend/server.js`.
+- Node 20+: `node --check` on every file in `assets/js/` plus `assets/config.js`, and `node --check backend/server.js`.
 - `cd backend && npm install && npm run check`; review npm audit and test dependencies. GitHub Actions also checks syntax before Pages deployment.
 - Backend must refuse startup without key, strong access code or exact allowed origins.
 - Health route must work without exposing configuration/secrets; health is not a provider test.
@@ -18,7 +18,7 @@ No browser, Node runtime or live OpenAI connection was available during generati
 - Speaking: permit/deny microphone, start/stop/play/download, switch activity while recording and while permissions are pending. Ensure microphone stops. Try supported uploads and files above 10 MB. Downloads are lost on activity switch unless saved.
 
 ## Objective answer tests
-Use assets/content.js answer keys for development. Each Listening/Reading library exercise returns its expected score with the supplied answers. Check incorrect/blank answers and case/whitespace/hyphen normalisation. No alias support beyond this is promised. Reading uses only the passage. Correct each explanation if it is ambiguous.
+Use the answer keys in backend/lessons.json for development. Each Listening/Reading library exercise returns its expected score with the supplied answers. Check incorrect/blank answers and case/whitespace/hyphen normalisation. No alias support beyond this is promised. Reading uses only the passage. Correct each explanation if it is ambiguous.
 
 ## AI with a privately configured key
 - Blank/invalid API URL: offline message; regular practice still works.
@@ -42,3 +42,6 @@ Confirm Pages publishes frontend only, no real .env or access codes exist in Git
 
 ### Next-activity button
 Click Find my next activity from each mode. Confirm it opens daily practice, selects the first/next activity for the current skill, scrolls/focuses the practice area, displays its title, and wraps after the last activity. Verify drafts are retained. Actual browser scrolling must be tested on the deployed site.
+
+## Accounts
+Start the backend locally (see SETUP-AI.md, `ALLOWED_ORIGINS=http://localhost:8000`, `PORT=3055`) and run `node tests/auth-smoke.mjs` from the project root. It registers test users, checks login/logout, progress sync, isolation between users, CORS/origin rules, rate limiting and account deletion. Use a throwaway `DATA_FILE`.

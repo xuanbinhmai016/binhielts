@@ -1,22 +1,36 @@
 # IELTS Studio 2.0
 
-Independent, original four-skill practice with a configurable OpenAI backend. **20 practice activities (5 per skill), a separate four-part diagnostic, and 56 objectively marked questions in total across Listening and Reading.** Writing and Speaking use prompts/self-review, not objective marking. These are mini activities, NOT full Cambridge or IELTS mock exams. No Cambridge content is reproduced.
+Independent, original four-skill practice with a configurable OpenAI backend. **24 practice activities (20 core + 4 Reading-skill vocabulary gap-fills), a separate four-part diagnostic, and 76 objectively marked questions in total across Listening and Reading.** Writing and Speaking use prompts/self-review, not objective marking. These are mini activities, NOT full Cambridge or IELTS mock exams. No Cambridge content is reproduced.
 
 ## Simple navigation
 - **Check my level:** four short starting-point activities. Listening/Reading results apply only to those questions; Writing/Speaking are self-reflections. No overall English, CEFR or IELTS band is assigned. No diagnostic is validated here.
 - **Daily practice:** select a skill and activity; get explanations after submitting.
+- **Practice test:** pick a week (Week 1–5 list with green ticks for completed parts), then either do a single part (Listening, Reading, Writing or Speaking) or start the full test, which runs all four parts in order with a timer per part and a results screen at the end. Sets are built automatically from `backend/lessons.json` (one core activity per skill; vocabulary drills excluded). These are short original mini activities, not full-length IELTS parts, and results are not band scores.
 - **Test mode:** select a timed mini activity. The timer starts when it opens; switching/restarting starts a new attempt. Objective answers lock and review on submission/time expiry. For open responses, time expiry prompts you to save/log; it does not score them. Not a secure or full-length examination.
 - **AI coach:** single-turn questions for Listening/Speaking. Speaking activities support microphone/upload transcription and text-based feedback. Listening activities can generate synthetic audio from the original fixed passage. No live voice conversation, automatic pronunciation assessment or official bands.
 
 ## Files
 ```
 index.html
-assets/styles.css       colourful mobile-friendly design
-assets/content.js      all original activities and answer keys
-assets/config.js       public backend URL (NEVER an API key)
-assets/app.js           frontend modes, recordings, backups and AI requests
+assets/styles.css       colourful mobile-friendly design (+ split-screen exam layout)
+assets/config.js        public backend URL (NEVER an API key)
+assets/js/main.js       entry point: loads lessons, boots the app
+assets/js/data.js       fetches backend/lessons.json
+assets/js/session.js    shared constants and session state
+assets/js/storage.js    localStorage, backups, import/export
+assets/js/ui.js         rendering, modes, controls
+assets/js/exam.js       questions, writing, self-review
+assets/js/mock.js       Practice test: single part or full test
+assets/js/media.js      listening audio and speaking recording
+assets/js/timer.js      countdown timer
+assets/js/api.js        AI backend requests
+assets/js/dom.js        small DOM helpers
 backend/server.js       Express/OpenAI API
-backend/lessons.json    matching server-side activity library
+backend/auth.js         accounts: register, login, per-user progress sync
+assets/js/account.js    login/sign-up panel and progress sync
+backend/lessons.json    SINGLE SOURCE OF TRUTH for all activities and answer keys
+                        (read by the website via fetch(), by server.js and by ielts_tools/)
+ielts_tools/, java-tools/  offline CLI study tools (see below), not part of the website
 backend/package.json
 backend/.env.example    configuration template, no secrets
 backend/Dockerfile
@@ -31,12 +45,12 @@ LICENSE
 ```
 
 ## Run practice without AI
-Extract the ZIP. From the repository root run `python -m http.server 8000` (or `python3 ...`) and visit http://localhost:8000. Basic activities work without a backend. Microphone access requires localhost or HTTPS and browser support. A camera is not used. Backups omit audio, AI replies and secrets. Drafts are stored per activity. Version 1 study data is migrated when possible; export your old data first. A manual reset also removes old study data. Display preferences are separate.
+Lessons are loaded with `fetch()` from `backend/lessons.json`, so the page must be served over HTTP; opening `index.html` by double-click will not work. Extract the ZIP. From the repository root run `python -m http.server 8000` (or `python3 ...`) and visit http://localhost:8000. Basic activities work without a backend. Microphone access requires localhost or HTTPS and browser support. A camera is not used. Backups omit audio, AI replies and secrets. Drafts are stored per activity. Version 1 study data is migrated when possible; export your old data first. A manual reset also removes old study data. Display preferences are separate.
 
 ## Upload frontend to GitHub
 1. Create a repository, e.g. `ielts-study`, and extract the ZIP. Upload the extracted files to its root, preserving `assets`, `backend` and `.github` folders. Do not upload only the ZIP or add another enclosing folder.
 2. Do NOT upload a real `.env`, recordings, backups or credentials. `.env.example` contains placeholders only. Review uploads before committing: the browser uploader does not enforce `.gitignore` for you.
-3. If hidden files are missed, use Add file → Create new file, enter `.github/workflows/pages.yml`, and copy its contents. The included workflow stages ONLY `index.html` and `assets` for Pages, excluding backend files.
+3. The hidden files `.github/workflows/pages.yml` and `.gitignore` must exist in the repository. If your uploader skipped them, use Add file → Create new file, enter `.github/workflows/pages.yml`, and copy its contents. The workflow stages ONLY `index.html`, `assets/` and `backend/lessons.json` (the lesson data the page fetches) for Pages; server code is excluded.
 4. Settings → Pages → Source → GitHub Actions. Actions must be enabled. Run the Deploy IELTS Studio frontend workflow or commit to main.
 5. Your site is normally https://YOUR-USERNAME.github.io/ielts-study/. Set the API URL only after separately deploying the backend.
 6. For updates, replace files at the same paths and commit. Keep the existing repository history; no force push is needed.
@@ -92,8 +106,22 @@ The workspace cannot create dot-prefixed paths, so the separately downloadable s
 The ZIP already contains the correct dot-prefixed names. These renames apply **only to separate downloads**. Do not add a private backend/.env or provider key to Git.
 
 ## Python source-code extension
-The repository now contains 26 files, including **five actual Python source/test files**, not additional interface pages. `ielts_tools/library.py`, `scoring.py`, `planning.py` and `cli.py` provide validation, original-exercise grading, study scheduling and terminal commands; `tests/test_tools.py` includes 17 passing tests. Read **PYTHON-TOOLS.md**. Run `python -m ielts_tools.cli validate` and `python -m unittest discover -s tests -v` from the project root. Python 3.9+ only; no pip packages required. These offline tools do not replace or connect to the existing JavaScript website/Express backend and do not run on GitHub Pages. Earlier file counts above refer to the previous release. The latest canvas-only interface refresh is not part of this deployable ZIP.
+The repository now contains 26 files, including **five actual Python source/test files**, not additional interface pages. `ielts_tools/library.py`, `scoring.py`, `planning.py` and `cli.py` provide validation, original-exercise grading, study scheduling and terminal commands; `tests/test_tools.py` includes 17 passing tests. Read **PYTHON-TOOLS.md**. Run `python -m ielts_tools.cli validate` and `python -m unittest discover -s tests -v` from the project root. Python 3.9+ only; no pip packages required. **Offline Study Tools (standalone CLI):** these Python and Java tools are command-line utilities, not part of the website. They do not connect to the JavaScript site or Express backend and do not run on GitHub Pages. They share only the data file `backend/lessons.json`. Exposing them over the web (e.g. FastAPI on Render/Railway plus `assets/config.js`) is a possible future step and is not implemented. Earlier file counts above refer to the previous release. The latest canvas-only interface refresh is not part of this deployable ZIP.
 
 
 ## Non-UI Python and Java extension
 See CODE-TOOLS.md for backup analytics, text diagnostics, Java calculations, tests and commit steps. The v3 dashboard/FastAPI upgrade remains separate and unfinished.
+
+
+## Accounts (register / login)
+GitHub Pages is static, so accounts need the Express backend (`backend/auth.js`, mounted at `/auth`). Without a backend the site works exactly as before and progress stays in the browser; the account panel then says accounts are offline.
+
+- **What it does:** username + password sign-up, login/logout, delete account, and automatic sync of your progress (attempts, drafts, diagnostic results). Logging in on another device restores it. If you made progress before signing in, it is merged into the account, not overwritten. Logging out clears this browser's copy (it stays in the account), so shared computers do not mix learners.
+- **Security basics included:** scrypt password hashing with per-user salt, random bearer tokens (only their hash is kept, 30-day expiry, max 5 sessions per user), generic login errors, rate limits on login/sign-up, exact-origin CORS, reserved usernames blocked, no passwords in logs.
+- **Setup:** same as the AI backend (see SETUP-AI.md): set `ALLOWED_ORIGINS`, then put the deployed backend URL in `assets/config.js`. Optional: `DATA_FILE` (default `backend/data/users.json`) and `MAX_USERS` (default 200).
+- **Important limits (read before going public):**
+  - Users are stored in a JSON file. On hosts with an ephemeral disk (e.g. free Render/Railway tiers) accounts and progress disappear on redeploy: mount a persistent volume for `DATA_FILE`, or move to a real database before real use.
+  - Single instance only. Sessions live in memory, so a restart logs everyone out.
+  - There is no password reset and no email verification. A forgotten password cannot be recovered.
+  - Progress is stored unencrypted on your server. Publish a privacy policy and check age requirements before a public launch.
+  - The server still requires the OpenAI settings to start, because accounts share that process.

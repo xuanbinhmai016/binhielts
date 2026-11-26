@@ -49,7 +49,7 @@ git commit -m "feat(practice): add activity navigation audio and study tools"
 
 ### 4. Original four-skill exercise library
 ```sh
-git add assets/content.js
+git add assets/js
 git commit -m "feat(content): add original four-skill practice and diagnostic activities"
 ```
 

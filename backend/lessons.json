@@ -554,5 +554,153 @@
     "mode": "diagnostic",
     "minutes": 1,
     "question_type": "open response"
+  },
+  {
+    "skill": "Reading",
+    "title": "Vocabulary: environment",
+    "instructions": "Choose the best word from the word bank for each gap and type it. Each word is used once; some words are extra. This is an original vocabulary exercise, not a Cambridge or IELTS test.",
+    "content": "Word bank: mitigate, sustainable, emissions, conserve, habitat, fragile, dispose\n\nTopic: environment and climate. Many IELTS tasks discuss how people can protect the natural world.",
+    "questions": [
+      {
+        "prompt": "Planting trees along busy roads is one way to ____ the effects of traffic pollution.",
+        "answer": "mitigate",
+        "explanation": "To mitigate means to make something less severe."
+      },
+      {
+        "prompt": "Farmers are encouraged to use ____ methods that protect the soil for future generations.",
+        "answer": "sustainable",
+        "explanation": "Sustainable describes something that can continue without causing long-term damage."
+      },
+      {
+        "prompt": "Factories must report their carbon ____ to the government every year.",
+        "answer": "emissions",
+        "explanation": "Emissions are gases released into the air."
+      },
+      {
+        "prompt": "Turning off lights when leaving a room helps households ____ energy.",
+        "answer": "conserve",
+        "explanation": "To conserve is to use carefully and avoid waste."
+      },
+      {
+        "prompt": "Draining the wetland destroyed the ____ of many rare birds.",
+        "answer": "habitat",
+        "explanation": "A habitat is the natural home of an animal or plant."
+      }
+    ],
+    "id": "vocab-environment",
+    "mode": "practice",
+    "minutes": 6,
+    "question_type": "Vocabulary gap-fill"
+  },
+  {
+    "skill": "Reading",
+    "title": "Vocabulary: education and work",
+    "instructions": "Choose the best word from the word bank for each gap and type it. Each word is used once; some words are extra. This is an original vocabulary exercise, not a Cambridge or IELTS test.",
+    "content": "Word bank: curriculum, qualification, deadline, collaborate, flexible, tuition, mentor\n\nTopic: education and employment. These words are common in discussions about studying and careers.",
+    "questions": [
+      {
+        "prompt": "The school is updating its ____ to include more practical science lessons.",
+        "answer": "curriculum",
+        "explanation": "A curriculum is the set of subjects taught in a course or school."
+      },
+      {
+        "prompt": "A teaching ____ is usually needed before you can work in a state school.",
+        "answer": "qualification",
+        "explanation": "A qualification is a certificate or degree showing you have completed training."
+      },
+      {
+        "prompt": "Students who miss the ____ for the essay lose marks.",
+        "answer": "deadline",
+        "explanation": "A deadline is the latest time by which something must be done."
+      },
+      {
+        "prompt": "Engineers and designers often ____ on projects so that ideas can be shared.",
+        "answer": "collaborate",
+        "explanation": "To collaborate is to work together with others."
+      },
+      {
+        "prompt": "Many employees prefer ____ hours, such as starting earlier or later.",
+        "answer": "flexible",
+        "explanation": "Flexible means able to change to suit different needs."
+      }
+    ],
+    "id": "vocab-education-work",
+    "mode": "practice",
+    "minutes": 6,
+    "question_type": "Vocabulary gap-fill"
+  },
+  {
+    "skill": "Reading",
+    "title": "Vocabulary: technology and society",
+    "instructions": "Choose the best word from the word bank for each gap and type it. Each word is used once; some words are extra. This is an original vocabulary exercise, not a Cambridge or IELTS test.",
+    "content": "Word bank: innovation, privacy, automate, access, reliable, obsolete, virtual\n\nTopic: technology and society. These words help you discuss the benefits and risks of new tools.",
+    "questions": [
+      {
+        "prompt": "Many people worry about their online ____ when apps collect personal data.",
+        "answer": "privacy",
+        "explanation": "Privacy is the right to keep personal information protected."
+      },
+      {
+        "prompt": "Robots can ____ repetitive tasks in factories, reducing the need for manual work.",
+        "answer": "automate",
+        "explanation": "To automate is to make a process work by machine with little human effort."
+      },
+      {
+        "prompt": "Rural villages often lack broadband ____, so students cannot easily study online.",
+        "answer": "access",
+        "explanation": "Access means the ability to reach or use something."
+      },
+      {
+        "prompt": "A ____ internet connection is essential for video lessons, because interruptions waste time.",
+        "answer": "reliable",
+        "explanation": "Reliable means dependable and working consistently."
+      },
+      {
+        "prompt": "Medical ____ has helped doctors to detect illnesses earlier.",
+        "answer": "innovation",
+        "explanation": "Innovation is the introduction of new ideas or methods."
+      }
+    ],
+    "id": "vocab-technology",
+    "mode": "practice",
+    "minutes": 6,
+    "question_type": "Vocabulary gap-fill"
+  },
+  {
+    "skill": "Reading",
+    "title": "Vocabulary: health and lifestyle",
+    "instructions": "Choose the best word from the word bank for each gap and type it. Each word is used once; some words are extra. This is an original vocabulary exercise, not a Cambridge or IELTS test.",
+    "content": "Word bank: sedentary, nutrition, chronic, moderate, stress, contagious, vaccine\n\nTopic: health and lifestyle. These words are useful for describing habits and wellbeing.",
+    "questions": [
+      {
+        "prompt": "Office workers with a ____ lifestyle should stand up and walk regularly.",
+        "answer": "sedentary",
+        "explanation": "Sedentary means involving a lot of sitting and little movement."
+      },
+      {
+        "prompt": "Good ____ means eating a balanced diet with enough vitamins and protein.",
+        "answer": "nutrition",
+        "explanation": "Nutrition is the food and nutrients the body needs."
+      },
+      {
+        "prompt": "Diabetes is a ____ condition that people usually manage for many years.",
+        "answer": "chronic",
+        "explanation": "Chronic describes a condition that lasts a long time."
+      },
+      {
+        "prompt": "Doctors recommend ____ exercise, such as brisk walking, for thirty minutes a day.",
+        "answer": "moderate",
+        "explanation": "Moderate means medium in amount or intensity, not extreme."
+      },
+      {
+        "prompt": "Taking short breaks can help students manage ____ before exams.",
+        "answer": "stress",
+        "explanation": "Stress is mental or emotional pressure."
+      }
+    ],
+    "id": "vocab-health",
+    "mode": "practice",
+    "minutes": 6,
+    "question_type": "Vocabulary gap-fill"
   }
 ]

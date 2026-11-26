@@ -31,3 +31,35 @@ body.high-contrast{background:#fff;--shadow:none;--line:#64748b}.high-contrast .
 @media(prefers-reduced-motion:reduce){.mode-grid button:hover{transform:none}html{scroll-behavior:auto}*{transition:none!important}}
 
 .activity-opened{padding:14px 18px;border:1px solid #0f766e;border-radius:12px;background:#ecfdf5;color:#065f46;font-weight:650}#practice:focus-visible{outline:3px solid var(--accent);outline-offset:6px;border-radius:12px}
+
+/* Computer-test style split screen for Reading/Writing: source left, work right */
+.exam-split{display:block}.pane-work{min-width:0}.pane-source .passage{margin:20px 0}
+@media(min-width:1100px){
+  .exam-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start;margin-top:12px}
+  .pane-source{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;border-radius:16px}
+  .pane-source .passage{margin:0}
+  .pane-work textarea{min-height:420px}
+  .pane-work>form{border-top:0;margin-top:0;padding-top:0}
+}
+
+/* Practice test mode */
+@media(min-width:851px){.mode-grid{grid-template-columns:repeat(5,1fr);gap:10px}.mode-grid button{padding:20px 14px}}
+.mode-grid button[data-mode=mock]{--mode-color:#be185d;--mode-soft:#fdeaf3}
+.mock-parts{display:grid;gap:10px;margin:18px 0}
+.mock-part{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:14px 18px;border:1px solid var(--line);border-radius:14px;background:var(--soft)}
+.mock-part strong,.mock-part small{display:block}
+.mock-part button{margin:0}
+.mock-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.mock-bar p{margin:0}.mock-bar button{margin:0}
+
+/* Account panel */
+#account-panel{margin-top:20px;border-left:4px solid var(--accent)}
+#account-panel input[type=text],#account-panel input[type=password]{display:block;width:100%;max-width:380px;margin:8px 0 18px}
+#account-panel h2{font-size:1.4em}
+#account-button{max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Weekly list with completion ticks */
+.mock-week{margin:12px 0;padding:14px 18px}.mock-week summary{font-size:1.05em}
+.mock-part{display:grid;grid-template-columns:30px 1fr auto;align-items:center}
+.tick{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--line)}
+.tick.done{background:#16a34a;border-color:#16a34a;color:#fff;font-weight:800;font-size:.85rem}

@@ -7,9 +7,8 @@
   <meta name="theme-color" content="#4338ca">
   <title>IELTS Studio · Your next chapter starts here</title>
   <link rel="stylesheet" href="assets/styles.css">
-  <script defer src="assets/content.js"></script>
   <script defer src="assets/config.js"></script>
-  <script defer src="assets/app.js"></script>
+  <script type="module" src="assets/js/main.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#practice">Skip to practice</a>
@@ -18,6 +17,7 @@
     <div class="access-tools" aria-label="Display preferences">
       <button id="large-text" class="secondary" aria-pressed="false">Larger text</button>
       <button id="high-contrast" class="secondary" aria-pressed="false">High contrast</button>
+      <button id="account-button" class="secondary" type="button">Log in / Sign up</button>
     </div>
   </div>
   <header id="home" class="hero">
@@ -57,6 +57,19 @@
     </div>
   </header>
   <main>
+    <section id="account-panel" class="card" hidden aria-labelledby="account-title">
+      <span class="eyebrow">YOUR ACCOUNT</span><h2 id="account-title">Log in or sign up</h2>
+      <p id="account-note" class="muted"></p>
+      <form id="account-form">
+        <label for="acc-user">Username</label><input id="acc-user" type="text" autocomplete="username" maxlength="30" required>
+        <label for="acc-pass">Password</label><input id="acc-pass" type="password" autocomplete="current-password" minlength="8" maxlength="128" required>
+        <button type="submit" id="acc-login">Log in</button><button type="button" id="acc-register" class="secondary">Create account</button><button type="button" id="acc-close" class="secondary">Close</button>
+      </form>
+      <div id="account-signed-in" hidden>
+        <p id="account-welcome"></p>
+        <button type="button" id="acc-logout">Log out</button><button type="button" id="acc-delete" class="secondary">Delete account</button><button type="button" id="acc-close-2" class="secondary">Close</button>
+      </div>
+    </section>
     <section class="card welcome-card" aria-labelledby="welcome-title">
       <span class="eyebrow">ONE CLEAR NEXT STEP</span><h2 id="welcome-title">How would you like to learn today?</h2>
       <p class="welcome-intro">Start where you are. Choose the kind of practice that feels right today.</p><nav id="modes" class="mode-grid" aria-label="Study mode"></nav>
@@ -82,6 +95,7 @@
       <nav aria-label="Choose a skill" id="skills"></nav>
       <div id="lesson-picker" class="card"><label for="lesson-select">Choose an activity</label><select id="lesson-select"></select></div>
       <section class="card lesson-card" id="lesson" aria-labelledby="lesson-title"></section>
+      <section id="mock-panel" class="card" hidden aria-live="polite"></section>
       <section id="coach-panel" class="card" hidden>
         <h2>AI practice coach</h2>
         <p>Ask for a vocabulary explanation, a short practice dialogue or a follow-up speaking question. Use the Speaking activities to record an answer and request transcript-based feedback. Use Listening activities for AI-generated speech.</p>

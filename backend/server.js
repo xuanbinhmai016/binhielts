@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 import multer from 'multer';
 import { timingSafeEqual } from 'node:crypto';
 import { readFileSync } from 'node:fs';
+import { authRouter } from './auth.js';
 
 const app = express();
 const key = process.env.OPENAI_API_KEY;
@@ -26,6 +27,7 @@ if (proxyHops > 0) app.set('trust proxy', proxyHops);
 app.disable('x-powered-by');
 app.use(helmet());
 app.get('/health', (_req,res)=>res.json({status:'ok'}));
+app.use('/auth', authRouter({origins}));
 app.use('/api', rateLimit({windowMs:60000,limit:8,standardHeaders:'draft-7',legacyHeaders:false,message:{error:'Too many requests. Wait a minute.'}}));
 app.use('/api', (req,res,next)=>{
   if (!origins.includes(req.get('Origin'))) return res.status(403).json({error:'Origin not permitted.'});
